@@ -63,7 +63,7 @@
 	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 	
-	<context:component-scan base-package="com.opensource.phonebook" />
+	<context:component-scan base-package="com.opensource.restful" />
 	<context:annotation-config />
 
 	<bean id="userDao" class="com.opensource.restful.server.dao.UserDaoImpl">
@@ -91,10 +91,9 @@
 	    <property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
-	
-	
-	<bean id="contextApplicationContextProvider"
-		class="com.opensource.restful.core.ApplicationContextProvider">
+	 
+	<bean id="contactService" class="com.opensource.restful.shared.service.ContactServiceImpl">
+		<property name="contactDao" ref="contactDao"/>
 	</bean>
 
 	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">

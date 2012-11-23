@@ -1,4 +1,4 @@
-package com.opensource.restful.shared;
+package com.opensource.restful.client.datasource;
 
 import java.util.Map;
 

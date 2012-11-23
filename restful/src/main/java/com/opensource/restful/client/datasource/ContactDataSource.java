@@ -1,9 +1,7 @@
 package com.opensource.restful.client.datasource;
 
-import com.opensource.restful.shared.AbstractRestDataSource;
-import com.smartgwt.client.data.DataSourceField;
+import com.smartgwt.client.data.fields.DataSourceTextField;
 import com.smartgwt.client.types.DSDataFormat;
-import com.smartgwt.client.types.FieldType;
 
 public class ContactDataSource extends AbstractRestDataSource
 {
@@ -13,7 +11,7 @@ public class ContactDataSource extends AbstractRestDataSource
     {
         if (instance == null)
         {
-            instance = new ContactDataSource("contactEditDS");
+            instance = new ContactDataSource("personEditDS");
         }
 
         return instance;
@@ -29,17 +27,23 @@ public class ContactDataSource extends AbstractRestDataSource
         setDataFormat(DSDataFormat.JSON);
         setJsonRecordXPath("/");
 
-        DataSourceField idField = new DataSourceField("id", FieldType.INTEGER, "ID");
-        idField.setPrimaryKey(true);
-        idField.setCanEdit(false);
-        DataSourceField nameField = new DataSourceField("name", FieldType.TEXT, "Name");
+        // set the values for the datasource
+        DataSourceTextField Id = new DataSourceTextField("id", "Id");
+        Id.setPrimaryKey(true);
+        Id.setCanEdit(false);
 
-        setFields(idField, nameField);
+        DataSourceTextField lastName = new DataSourceTextField("lastName", "Last Name");
+        lastName.setCanEdit(false);
+
+        DataSourceTextField firstName = new DataSourceTextField("firstName", "First Name");
+        firstName.setCanEdit(false);
+
+        setFields(Id, lastName, firstName);
     }
 
     @Override
     protected String getServiceRoot()
     {
-        return "contact/";
+        return "rest/contact/";
     }
 }
