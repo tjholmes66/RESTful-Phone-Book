@@ -7,7 +7,7 @@ import java.util.HashSet;
 @SuppressWarnings("serial")
 public class ContactDTO implements Serializable
 {
-    private long id;
+    private long contactId;
     private long userId;
     private String prefix;
     private String firstName;
@@ -29,14 +29,14 @@ public class ContactDTO implements Serializable
     private HashSet<ContactPhoneDTO> phones;
     private HashSet<ContactLinkDTO> links;
 
-    public long getId()
+    public long getContactId()
     {
-        return id;
+        return contactId;
     }
 
-    public void setId(long id)
+    public void setContactId(long contactId)
     {
-        this.id = id;
+        this.contactId = contactId;
     }
 
     public long getUserId()
@@ -255,7 +255,7 @@ public class ContactDTO implements Serializable
         result = prime * result + (int) (enteredBy ^ (enteredBy >>> 32));
         result = prime * result + ((enteredDate == null) ? 0 : enteredDate.hashCode());
         result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-        result = prime * result + (int) (id ^ (id >>> 32));
+        result = prime * result + (int) (contactId ^ (contactId >>> 32));
         result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
         result = prime * result + ((links == null) ? 0 : links.hashCode());
         result = prime * result + ((middleName == null) ? 0 : middleName.hashCode());
@@ -339,7 +339,7 @@ public class ContactDTO implements Serializable
         }
         else if (!firstName.equals(other.firstName))
             return false;
-        if (id != other.id)
+        if (contactId != other.contactId)
             return false;
         if (lastName == null)
         {
@@ -405,12 +405,12 @@ public class ContactDTO implements Serializable
     @Override
     public String toString()
     {
-        return "ContactDTO [id=" + id + ", userId=" + userId + ", prefix=" + prefix + ", firstName=" + firstName
-            + ", middleName=" + middleName + ", lastName=" + lastName + ", suffix=" + suffix + ", address1=" + address1
-            + ", address2=" + address2 + ", city=" + city + ", state=" + state + ", zip=" + zip + ", companyId="
-            + companyId + ", enteredBy=" + enteredBy + ", enteredDate=" + enteredDate + ", editedBy=" + editedBy
-            + ", editedDate=" + editedDate + ", birthDate=" + birthDate + ", emails=" + emails + ", phones=" + phones
-            + ", links=" + links + "]";
+        return "ContactDTO [contactId=" + contactId + ", userId=" + userId + ", prefix=" + prefix + ", firstName="
+            + firstName + ", middleName=" + middleName + ", lastName=" + lastName + ", suffix=" + suffix
+            + ", address1=" + address1 + ", address2=" + address2 + ", city=" + city + ", state=" + state + ", zip="
+            + zip + ", companyId=" + companyId + ", enteredBy=" + enteredBy + ", enteredDate=" + enteredDate
+            + ", editedBy=" + editedBy + ", editedDate=" + editedDate + ", birthDate=" + birthDate + ", emails="
+            + emails + ", phones=" + phones + ", links=" + links + "]";
     }
 
 }

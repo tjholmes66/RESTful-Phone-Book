@@ -1,6 +1,9 @@
 package com.opensource.restful.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.SimpleEventBus;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -14,12 +17,14 @@ public class Phonebook implements EntryPoint
     private static final String SERVER_ERROR = "An error occurred while "
         + "attempting to contact the server. Please check your network " + "connection and try again.";
 
+    private static EventBus eventBus = GWT.create(SimpleEventBus.class);
+
     /**
      * This is the entry point method.
      */
     public void onModuleLoad()
     {
-        MainPage main = new MainPage();
+        MainPage main = new MainPage(eventBus);
         main.show();
     }
 

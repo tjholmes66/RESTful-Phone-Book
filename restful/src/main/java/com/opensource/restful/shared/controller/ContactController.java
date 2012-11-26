@@ -33,7 +33,7 @@ public class ContactController
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public @ResponseBody
-    ArrayList<ContactDTO> getAllPersons()
+    ArrayList<ContactDTO> getAllContacts()
     {
         ArrayList<ContactEntity> contactEntityList = (ArrayList) service.getAllContacts();
 
@@ -41,13 +41,41 @@ public class ContactController
         for (ContactEntity contactEntity : contactEntityList)
         {
             ContactDTO contactDto = new ContactDTO();
-            contactDto.setId(contactEntity.getId());
+            contactDto.setContactId(contactEntity.getId());
             contactDto.setFirstName(contactEntity.getFirstName());
             contactDto.setLastName(contactEntity.getLastName());
             contactDTOList.add(contactDto);
         }
 
         return contactDTOList;
+    }
+
+    @RequestMapping(value = "/contactId/{contactId}", method = RequestMethod.GET)
+    public @ResponseBody
+    ContactDTO getContactById(@PathVariable("contactId") long contactId)
+    {
+        ContactEntity contactEntity = service.getContactById(contactId);
+
+        ContactDTO contactDto = new ContactDTO();
+        contactDto.setAddress1(contactEntity.getAddress1());
+        contactDto.setAddress2(contactEntity.getAddress2());
+        contactDto.setBirthDate(contactEntity.getBirthDate());
+        contactDto.setCity(contactEntity.getCity());
+        contactDto.setEditedBy(contactEntity.getEditedBy());
+        contactDto.setEditedDate(contactEntity.getEditedDate());
+        contactDto.setEnteredBy(contactEntity.getEnteredBy());
+        contactDto.setEnteredDate(contactEntity.getEnteredDate());
+        contactDto.setFirstName(contactEntity.getFirstName());
+        contactDto.setContactId(contactEntity.getId());
+        contactDto.setLastName(contactEntity.getLastName());
+        contactDto.setMiddleName(contactEntity.getMiddleName());
+        contactDto.setPrefix(contactEntity.getPrefix());
+        contactDto.setState(contactEntity.getState());
+        contactDto.setSuffix(contactEntity.getSuffix());
+        contactDto.setUserId(contactEntity.getUser().getId());
+        contactDto.setZip(contactEntity.getZip());
+
+        return contactDto;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.PUT)
@@ -70,9 +98,8 @@ public class ContactController
 
     @RequestMapping(value = "/id/{id}", method = RequestMethod.DELETE)
     public @ResponseBody
-    ContactDTO deleteContact(@PathVariable("id") Integer id)
+    ContactDTO deleteContact(@PathVariable("id") Integer contactId)
     {
-        // This should delete a person and return the deleted person object
         return null;
     }
 }

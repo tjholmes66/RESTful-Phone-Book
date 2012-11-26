@@ -20,6 +20,7 @@ public abstract class AbstractRestDataSource extends RestDataSource
         // set up FETCH to use GET requests
         OperationBinding fetch = new OperationBinding();
         fetch.setOperationType(DSOperationType.FETCH);
+        fetch.setDataProtocol(DSProtocol.GETPARAMS);
         DSRequest fetchProps = new DSRequest();
         fetchProps.setHttpMethod("GET");
         fetch.setRequestProperties(fetchProps);
@@ -78,6 +79,10 @@ public abstract class AbstractRestDataSource extends RestDataSource
         else if (request.getOperationType() == DSOperationType.UPDATE)
         {
             appendParameters(url, request);
+        }
+        else if (request.getOperationType() == DSOperationType.FETCH && dataMap.size() > 0)
+        {
+            url.append(getPrimaryKeyProperty()).append("/").append(dataMap.get(getPrimaryKeyProperty()));
         }
 
         request.setActionURL(URL.encode(url.toString()));

@@ -1,5 +1,6 @@
 package com.opensource.restful.client.datasource;
 
+import com.opensource.restful.shared.Constants;
 import com.smartgwt.client.data.fields.DataSourceTextField;
 import com.smartgwt.client.types.DSDataFormat;
 
@@ -28,14 +29,16 @@ public class ContactDataSource extends AbstractRestDataSource
         setJsonRecordXPath("/");
 
         // set the values for the datasource
-        DataSourceTextField Id = new DataSourceTextField("id", "Id");
+        DataSourceTextField Id = new DataSourceTextField(Constants.CONTACT_ID, Constants.TITLE_CONTACT_ID);
         Id.setPrimaryKey(true);
         Id.setCanEdit(false);
 
-        DataSourceTextField lastName = new DataSourceTextField("lastName", "Last Name");
+        DataSourceTextField lastName =
+            new DataSourceTextField(Constants.CONTACT_LAST_NAME, Constants.TITLE_CONTACT_LAST_NAME);
         lastName.setCanEdit(false);
 
-        DataSourceTextField firstName = new DataSourceTextField("firstName", "First Name");
+        DataSourceTextField firstName =
+            new DataSourceTextField(Constants.CONTACT_FIRST_NAME, Constants.TITLE_CONTACT_FIRST_NAME);
         firstName.setCanEdit(false);
 
         setFields(Id, lastName, firstName);
@@ -45,5 +48,11 @@ public class ContactDataSource extends AbstractRestDataSource
     protected String getServiceRoot()
     {
         return "rest/contact/";
+    }
+
+    @Override
+    protected String getPrimaryKeyProperty()
+    {
+        return "contactId";
     }
 }

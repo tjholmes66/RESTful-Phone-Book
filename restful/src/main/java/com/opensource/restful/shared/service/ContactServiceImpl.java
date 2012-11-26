@@ -29,4 +29,10 @@ public class ContactServiceImpl implements IContactService
         return contactList;
     }
 
+    @Override
+    public ContactEntity getContactById(long contactId)
+    {
+        ContactEntity contactEntity = contactDao.getContactEntity(contactId);
+        return contactEntity;
+    }
 }

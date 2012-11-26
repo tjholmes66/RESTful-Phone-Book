@@ -66,7 +66,7 @@ public class ContactServiceImplTests extends TestCase
     {
         ContactDTO contactDto = new ContactDTO();
         contactDto.setUserId(2);
-        contactDto.setId(id);
+        contactDto.setContactId(id);
 
         contactDto.setPrefix(prefix);
         contactDto.setFirstName(firstname);
@@ -121,7 +121,7 @@ public class ContactServiceImplTests extends TestCase
         // ==================================================
         List<ContactDTO> contacts = null; // service.fetch(dummy);
         ContactDTO contact = contacts.get(0);
-        System.out.println("testFetchByExample: contacts: id=" + contact.getId());
+        System.out.println("testFetchByExample: contacts: id=" + contact.getContactId());
         System.out.println("testFetchByExample: contacts: firstname=" + contact.getFirstName());
         System.out.println("testFetchByExample: contacts: lastname=" + contact.getLastName());
         System.out.println("testFetchByExample: contacts=" + contact.toString());
@@ -142,7 +142,7 @@ public class ContactServiceImplTests extends TestCase
             System.out.println("testFetchByUserExample: contacts: size=" + contacts.size());
             System.out.println("testFetchByUserExample: contacts=" + contacts.toString());
             contact = contacts.get(0);
-            System.out.println("testFetchByUserExample: contacts: id=" + contact.getId());
+            System.out.println("testFetchByUserExample: contacts: id=" + contact.getContactId());
             System.out.println("testFetchByUserExample: contacts: firstname=" + contact.getFirstName());
             System.out.println("testFetchByUserExample: contacts: lastname=" + contact.getLastName());
             System.out.println("testFetchByUserExample: contacts=" + contact.toString());
@@ -151,12 +151,12 @@ public class ContactServiceImplTests extends TestCase
         // ==================================================
     }
 
-    // @Test
+    @Test
     public void testFetchById() throws Exception
     {
-        long id = 2;
+        long contactId = 2;
         // ==================================================
-        ContactDTO contact = null; // service.fetch(id);
+        ContactEntity contact = service.getContactById(contactId);
         System.out.println("contacts: id=" + contact.getId());
         System.out.println("contacts: firstname=" + contact.getFirstName());
         System.out.println("contacts: lastname=" + contact.getLastName());
