@@ -109,7 +109,7 @@ public class ContactDaoTests extends TestCase
     {
         System.out.println("testContactFetchByUser: START");
         UserEntity user = new UserEntity();
-        user.setId(1);
+        user.setUserId(1);
 
         List<ContactEntity> contacts = contactDao.getContactEntityByUser(user);
         if (contacts != null)
@@ -179,7 +179,7 @@ public class ContactDaoTests extends TestCase
         assertNotNull(contacts);
         for (ContactEntity contact : contacts)
         {
-            assertNotNull(contact.getId());
+            assertNotNull(contact.getContactId());
             // ************************************************************
 // assertEquals(contact.getAddress1(),address1);
 // assertEquals(contact.getAddress2(),address2);
@@ -212,14 +212,14 @@ public class ContactDaoTests extends TestCase
         // ***************************************************************
         System.out.println("testContactRetrieveById: START: CREATE");
         ContactEntity contact = contactDao.getContactEntity(id);
-        assertNotNull(contact.getId());
+        assertNotNull(contact.getContactId());
         // ************************************************************
         assertEquals(contact.getAddress1(), address1);
         assertEquals(contact.getAddress2(), address2);
         assertEquals(contact.getCity(), city);
         assertEquals(contact.getCompanyId(), companyId);
         // assertEquals(contact.getFirstName(),firstName);
-        assertEquals(contact.getId(), id);
+        assertEquals(contact.getContactId(), id);
         // assertEquals(contact.getLastName(),lastName);
         // assertEquals(contact.getMiddleName(),middleName);
         // assertEquals(contact.getPassword(),password);

@@ -96,6 +96,7 @@ public class UserDaoImpl implements UserDao
             this.sessionFactory.getCurrentSession()
             .createQuery("from UserEntity users where users.username=? and users.password=?").setParameter(0, username)
             .setParameter(1, password).list();
+
         return users;
     }
 

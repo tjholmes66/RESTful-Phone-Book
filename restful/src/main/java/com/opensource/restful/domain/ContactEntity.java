@@ -37,6 +37,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cascade;
 
@@ -53,7 +55,7 @@ public class ContactEntity implements Serializable
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "contact_id")
-    private long id;
+    private long contactId;
 
     // bi-directional many-to-one association to UserEntity
     @ManyToOne(fetch = FetchType.EAGER)
@@ -110,6 +112,7 @@ public class ContactEntity implements Serializable
 
 // `entered_date` datetime DEFAULT NULL,
     @Column(name = "entered_date")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date enteredDate;
 
 // `edited_by` int(11) DEFAULT NULL,
@@ -118,10 +121,12 @@ public class ContactEntity implements Serializable
 
 // `edited_date` datetime DEFAULT NULL,
     @Column(name = "edited_date")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date editedDate;
 
 // `birthdate` datetime DEFAULT NULL,
     @Column(name = "birthdate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date birthDate;
 
     @OneToMany(fetch = FetchType.EAGER)
@@ -142,14 +147,14 @@ public class ContactEntity implements Serializable
     @JoinColumn(name = "contact_id")
     private Set<ContactLinkEntity> links;
 
-    public long getId()
+    public long getContactId()
     {
-        return id;
+        return contactId;
     }
 
-    public void setId(long id)
+    public void setContactId(long contactId)
     {
-        this.id = id;
+        this.contactId = contactId;
     }
 
     public UserEntity getUser()
@@ -355,12 +360,12 @@ public class ContactEntity implements Serializable
     @Override
     public String toString()
     {
-        return "ContactEntity [id=" + id + ", prefix=" + prefix + ", firstName=" + firstName + ", middleName="
-            + middleName + ", lastName=" + lastName + ", suffix=" + suffix + ", address1=" + address1 + ", address2="
-            + address2 + ", city=" + city + ", state=" + state + ", zip=" + zip + ", companyId=" + companyId
-            + ", enteredBy=" + enteredBy + ", enteredDate=" + enteredDate + ", editedBy=" + editedBy + ", editedDate="
-            + editedDate + ", birthDate=" + birthDate + ", emails=" + emails + ", phones=" + phones + ", links="
-            + links + "]";
+        return "ContactEntity [contactId=" + contactId + ", prefix=" + prefix + ", firstName=" + firstName
+            + ", middleName=" + middleName + ", lastName=" + lastName + ", suffix=" + suffix + ", address1=" + address1
+            + ", address2=" + address2 + ", city=" + city + ", state=" + state + ", zip=" + zip + ", companyId="
+            + companyId + ", enteredBy=" + enteredBy + ", enteredDate=" + enteredDate + ", editedBy=" + editedBy
+            + ", editedDate=" + editedDate + ", birthDate=" + birthDate + ", emails=" + emails + ", phones=" + phones
+            + ", links=" + links + "]";
     }
 
 }

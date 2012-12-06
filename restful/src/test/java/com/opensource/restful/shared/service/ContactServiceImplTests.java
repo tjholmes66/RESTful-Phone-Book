@@ -133,7 +133,7 @@ public class ContactServiceImplTests extends TestCase
     public void testFetchByUserExample() throws Exception
     {
         UserDTO dummy = new UserDTO();
-        dummy.setId(2);
+        dummy.setUserId(2);
         // ==================================================
         List<ContactDTO> contacts = null; // service.fetch(dummy);
         ContactDTO contact = null;
@@ -157,7 +157,7 @@ public class ContactServiceImplTests extends TestCase
         long contactId = 2;
         // ==================================================
         ContactEntity contact = service.getContactById(contactId);
-        System.out.println("contacts: id=" + contact.getId());
+        System.out.println("contacts: id=" + contact.getContactId());
         System.out.println("contacts: firstname=" + contact.getFirstName());
         System.out.println("contacts: lastname=" + contact.getLastName());
         System.out.println("contacts=" + contact.toString());

@@ -1,13 +1,13 @@
 package com.opensource.restful.shared.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 
 @SuppressWarnings("serial")
 public class UserDTO implements Serializable
 {
-    private long id;
+    private long userId;
     private boolean active;
     private PositionDTO position;
     private String username;
@@ -20,16 +20,16 @@ public class UserDTO implements Serializable
     private String securityQuestion2;
     private String securityAnswer2;
     private Date birthdate;
-    private HashSet<ContactDTO> contacts;
+    private ArrayList<ContactDTO> contacts;
 
-    public long getId()
+    public long getUserId()
     {
-        return id;
+        return userId;
     }
 
-    public void setId(long id)
+    public void setUserId(long userId)
     {
-        this.id = id;
+        this.userId = userId;
     }
 
     public boolean isActive()
@@ -72,32 +72,32 @@ public class UserDTO implements Serializable
         this.password = password;
     }
 
-    public String getFirstname()
+    public String getFirstName()
     {
         return firstname;
     }
 
-    public void setFirstname(String firstname)
+    public void setFirstName(String firstname)
     {
         this.firstname = firstname;
     }
 
-    public String getLastname()
+    public String getLastName()
     {
         return lastname;
     }
 
-    public void setLastname(String lastname)
+    public void setLastName(String lastname)
     {
         this.lastname = lastname;
     }
 
-    public HashSet<ContactDTO> getContacts()
+    public ArrayList<ContactDTO> getContacts()
     {
         return contacts;
     }
 
-    public void setContacts(HashSet<ContactDTO> contacts)
+    public void setContacts(ArrayList<ContactDTO> contacts)
     {
         this.contacts = contacts;
     }
@@ -172,7 +172,7 @@ public class UserDTO implements Serializable
         result = prime * result + ((contacts == null) ? 0 : contacts.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
         result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
-        result = prime * result + (int) (id ^ (id >>> 32));
+        result = prime * result + (int) (userId ^ (userId >>> 32));
         result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
         result = prime * result + ((position == null) ? 0 : position.hashCode());
@@ -224,7 +224,7 @@ public class UserDTO implements Serializable
         }
         else if (!firstname.equals(other.firstname))
             return false;
-        if (id != other.id)
+        if (userId != other.userId)
             return false;
         if (lastname == null)
         {
@@ -288,7 +288,7 @@ public class UserDTO implements Serializable
     @Override
     public String toString()
     {
-        return "UserDTO [id=" + id + ", active=" + active + ", position=" + position + ", username=" + username
+        return "UserDTO [userId=" + userId + ", active=" + active + ", position=" + position + ", username=" + username
             + ", password=" + password + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
             + ", securityQuestion1=" + securityQuestion1 + ", securityAnswer1=" + securityAnswer1
             + ", securityQuestion2=" + securityQuestion2 + ", securityAnswer2=" + securityAnswer2 + ", birthdate="

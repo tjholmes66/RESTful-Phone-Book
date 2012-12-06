@@ -223,7 +223,7 @@ public class UserDaoTests extends TestCase
         assertNotNull(users);
         for (UserEntity user : users)
         {
-            assertNotNull(user.getId());
+            assertNotNull(user.getUserId());
             // assertNotNull(user.isActive());
             // ************************************************************
 // assertEquals(user.getAddress1(),address1);
@@ -257,11 +257,11 @@ public class UserDaoTests extends TestCase
         // ***************************************************************
         System.out.println("testUserRetrieveById: START: CREATE");
         UserEntity user = userDao.getUserEntity(id);
-        assertNotNull(user.getId());
+        assertNotNull(user.getUserId());
         // assertNotNull(user.isActive());
         // ************************************************************
         assertEquals(user.getFirstname(), "Demo");
-        assertEquals(user.getId(), id);
+        assertEquals(user.getUserId(), id);
         assertEquals(user.getLastname(), "Demo");
         assertEquals(user.getPassword(), "demo");
         assertEquals(user.getUsername(), "demo");
@@ -289,11 +289,11 @@ public class UserDaoTests extends TestCase
         System.out.println("testUserRetrieveByExample: START: CREATE");
         List<UserEntity> users = userDao.getUsersEntity(exampleEntity);
         UserEntity user = users.get(0);
-        assertNotNull(user.getId());
+        assertNotNull(user.getUserId());
         // assertNotNull(user.isActive());
         // ************************************************************
         assertEquals(user.getFirstname(), "Demo");
-        assertEquals(user.getId(), id);
+        assertEquals(user.getUserId(), id);
         assertEquals(user.getLastname(), "Demo");
         assertEquals(user.getPassword(), "demo");
         assertEquals(user.getUsername(), "demo");
@@ -321,10 +321,10 @@ public class UserDaoTests extends TestCase
         assertNotNull(users);
         assertEquals(1, users.size());
         UserEntity user = users.get(0);
-        assertNotNull(user.getId());
+        assertNotNull(user.getUserId());
         // ************************************************************
         assertEquals(user.getFirstname(), "Demo");
-        assertEquals(user.getId(), id);
+        assertEquals(user.getUserId(), id);
         assertEquals(user.getLastname(), "Demo");
         assertEquals(user.getPassword(), "demo");
         assertEquals(user.getUsername(), "demo");

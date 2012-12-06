@@ -51,7 +51,7 @@ public class UserDTOTests extends TestCase
         UserDTO user = new UserDTO();
         assertNotNull(user);
         // ***************************************************************
-        user.setId(id);
+        user.setUserId(id);
         user.setUsername(username);
         user.setPassword(password);
         user.setActive(active);
@@ -62,13 +62,13 @@ public class UserDTOTests extends TestCase
         user.setSecurityAnswer2(securityAnswer2);
         System.out.println("testUserCreate: user=" + user.toString());
         // ***************************************************************
-        assertNotNull(user.getId());
+        assertNotNull(user.getUserId());
         assertNotNull(user.getUsername());
         assertNotNull(user.getPassword());
         assertNotNull(user.isActive());
         assertNotNull(user.toString());
         // ***************************************************************
-        assertEquals(id, user.getId());
+        assertEquals(id, user.getUserId());
         assertEquals(username, user.getUsername());
         assertEquals(password, user.getPassword());
         assertEquals(active, user.isActive());

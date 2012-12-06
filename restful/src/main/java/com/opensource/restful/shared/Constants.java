@@ -37,17 +37,17 @@ public class Constants
     public final static String USER_ID = "userId";
     public final static String USER_ACTIVE = "userActive";
     public final static String USER_POSITION_ID = "userPositionId";
-    public final static String USER_USERNAME = "userUsername";
-    public final static String USER_PASSWORD = "userPassword";
-    public final static String USER_OTHER_PASSWORD = "userOtherPassword";
+    public final static String USER_USERNAME = "username";
+    public final static String USER_PASSWORD = "password";
+    public final static String USER_OTHER_PASSWORD = "otherPassword";
     public final static String USER_FIRST_NAME = "userFirstName";
     public final static String USER_LAST_NAME = "userLastName";
     public final static String USER_EMAIL = "userEmail";
-    public static final String USER_SECURITY_QUESTION_1 = "userQuestion1Field";
-    public static final String USER_SECURITY_ANSWER_1 = "userAnswer1Field";
-    public static final String USER_SECURITY_QUESTION_2 = "userQuestion2Field";
-    public static final String USER_SECURITY_ANSWER_2 = "userAnswer2Field";
-    public static final String USER_BIRTHDATE = "birthdate";
+    public static final String USER_SECURITY_QUESTION_1 = "userSecurityQuestion1";
+    public static final String USER_SECURITY_ANSWER_1 = "userSecurityAnswer1";
+    public static final String USER_SECURITY_QUESTION_2 = "userSecurityQuestion2";
+    public static final String USER_SECURITY_ANSWER_2 = "userSecurityAnswer2";
+    public static final String USER_BIRTHDATE = "userBirthDate";
 
     public final static String TITLE_USER_ID = "User Id";
     public final static String TITLE_USER_ACTIVE = "User Active";

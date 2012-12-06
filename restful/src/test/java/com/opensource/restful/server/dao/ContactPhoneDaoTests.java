@@ -136,7 +136,7 @@ public class ContactPhoneDaoTests extends TestCase
             assertNotNull(contactPhone.getPhoneId());
             assertNotNull(contactPhone.getContact());
             assertNotNull(contactPhone.getPhoneType());
-            assertEquals(contactPhone.getContact().getId(), id);
+            assertEquals(contactPhone.getContact().getContactId(), id);
             assertEquals(contactPhone.getPhoneType().getId(), phoneTypeId);
             // ************************************************************
             System.out.println("testContactRetrieve: contactPhone=" + contactPhone.toString());
@@ -159,7 +159,7 @@ public class ContactPhoneDaoTests extends TestCase
         assertNotNull(contactPhone.getPhoneId());
         assertNotNull(contactPhone.getContact());
         assertNotNull(contactPhone.getPhoneType());
-        assertEquals(contactPhone.getContact().getId(), id);
+        assertEquals(contactPhone.getContact().getContactId(), id);
         assertEquals(contactPhone.getPhoneType().getId(), phoneTypeId);
         // ************************************************************
         System.out.println("testContactRetrieve: contactPhone=" + contactPhone.toString());

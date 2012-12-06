@@ -1,7 +1,6 @@
 package com.opensource.restful.shared;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 
 import com.opensource.restful.domain.ContactEmailEntity;
 import com.opensource.restful.domain.ContactEntity;
@@ -33,25 +32,25 @@ public class Mapping
             userDTO = new UserDTO();
             userDTO.setActive(userEntity.isActive());
             // =========================================================
-            Set<ContactDTO> contactDTOSet = null;
+            ArrayList<ContactDTO> contactDTOArrayList = null;
             if (userEntity.getContacts() != null)
             {
-                contactDTOSet = new HashSet<ContactDTO>();
+                contactDTOArrayList = new ArrayList<ContactDTO>();
                 for (ContactEntity contactEntity : userEntity.getContacts())
                 {
                     ContactDTO contactDTO = createContact(contactEntity);
                     if (contactDTO != null)
                     {
-                        contactDTOSet.add(contactDTO);
+                        contactDTOArrayList.add(contactDTO);
                     }
                 }
             }
-            userDTO.setContacts((HashSet<ContactDTO>) contactDTOSet);
+            userDTO.setContacts((ArrayList<ContactDTO>) contactDTOArrayList);
             // =========================================================
             userDTO.setEmail(userEntity.getEmail());
-            userDTO.setFirstname(userEntity.getFirstname());
-            userDTO.setId(userEntity.getId());
-            userDTO.setLastname(userEntity.getLastname());
+            userDTO.setFirstName(userEntity.getFirstname());
+            userDTO.setUserId(userEntity.getUserId());
+            userDTO.setLastName(userEntity.getLastname());
             userDTO.setPassword(userEntity.getPassword());
             userDTO.setPosition(createPosition(userEntity.getPosition()));
             userDTO.setSecurityAnswer1(userEntity.getSecurityAnswer1());
@@ -71,8 +70,8 @@ public class Mapping
         if (contactEntity != null)
         {
             contactDTO = new ContactDTO();
-            contactDTO.setUserId(contactEntity.getUser().getId());
-            contactDTO.setContactId(contactEntity.getId());
+            contactDTO.setUserId(contactEntity.getUser().getUserId());
+            contactDTO.setContactId(contactEntity.getContactId());
 
             contactDTO.setPrefix(contactEntity.getPrefix());
             contactDTO.setFirstName(contactEntity.getFirstName());
@@ -94,55 +93,55 @@ public class Mapping
             contactDTO.setBirthDate(contactEntity.getBirthDate());
             contactDTO.setCompanyId(contactEntity.getCompanyId());
             // ==============================================================
-            Set<ContactEmailDTO> contactEmailDTOSet = null;
+            ArrayList<ContactEmailDTO> contactEmailDTOArrayList = null;
             if (contactEntity.getEmails() != null)
             {
-                contactEmailDTOSet = new HashSet<ContactEmailDTO>();
+                contactEmailDTOArrayList = new ArrayList<ContactEmailDTO>();
                 for (ContactEmailEntity contactEmailEntity : contactEntity.getEmails())
                 {
                     ContactEmailDTO contactEmailDTO = createContactEmail(contactEmailEntity);
                     if (contactEmailDTO != null)
                     {
-                        contactEmailDTOSet.add(contactEmailDTO);
+                        contactEmailDTOArrayList.add(contactEmailDTO);
                     }
                 }
             }
-            contactDTO.setEmails((HashSet<ContactEmailDTO>) contactEmailDTOSet);
+            contactDTO.setEmails((ArrayList<ContactEmailDTO>) contactEmailDTOArrayList);
             // ==============================================================
-            Set<ContactLinkDTO> contactLinkDTOSet = null;
+            ArrayList<ContactLinkDTO> contactLinkDTOArrayList = null;
             if (contactEntity.getLinks() != null)
             {
-                contactLinkDTOSet = new HashSet<ContactLinkDTO>();
+                contactLinkDTOArrayList = new ArrayList<ContactLinkDTO>();
                 for (ContactLinkEntity contactLinkEntity : contactEntity.getLinks())
                 {
                     ContactLinkDTO contactLinkDTO = createContactLink(contactLinkEntity);
                     if (contactLinkDTO != null)
                     {
-                        contactLinkDTOSet.add(contactLinkDTO);
+                        contactLinkDTOArrayList.add(contactLinkDTO);
                     }
                 }
             }
-            contactDTO.setLinks((HashSet<ContactLinkDTO>) contactLinkDTOSet);
+            contactDTO.setLinks((ArrayList<ContactLinkDTO>) contactLinkDTOArrayList);
             // ==============================================================
-            Set<ContactPhoneDTO> contactPhoneDTOSet = null;
+            ArrayList<ContactPhoneDTO> contactPhoneDTOArrayList = null;
             if (contactEntity.getPhones() != null)
             {
-                contactPhoneDTOSet = new HashSet<ContactPhoneDTO>();
+                contactPhoneDTOArrayList = new ArrayList<ContactPhoneDTO>();
                 for (ContactPhoneEntity contactPhoneEntity : contactEntity.getPhones())
                 {
                     ContactPhoneDTO contactPhoneDTO = createContactPhone(contactPhoneEntity);
                     if (contactPhoneDTO != null)
                     {
-                        contactPhoneDTOSet.add(contactPhoneDTO);
+                        contactPhoneDTOArrayList.add(contactPhoneDTO);
                     }
                 }
             }
-            contactDTO.setPhones((HashSet<ContactPhoneDTO>) contactPhoneDTOSet);
+            contactDTO.setPhones((ArrayList<ContactPhoneDTO>) contactPhoneDTOArrayList);
             // ==============================================================
             contactDTO.setEnteredBy(contactEntity.getEnteredBy());
             contactDTO.setEnteredDate(contactEntity.getEnteredDate());
             contactDTO.setFirstName(contactEntity.getFirstName());
-            contactDTO.setContactId(contactEntity.getId());
+            contactDTO.setContactId(contactEntity.getContactId());
             contactDTO.setLastName(contactEntity.getLastName());
             contactDTO.setMiddleName(contactEntity.getMiddleName());
             contactDTO.setPrefix(contactEntity.getPrefix());
@@ -173,7 +172,7 @@ public class Mapping
         if (contactEmailEntity != null)
         {
             contactEmailDTO = new ContactEmailDTO();
-            contactEmailDTO.setContactId(contactEmailEntity.getContact().getId());
+            contactEmailDTO.setContactId(contactEmailEntity.getContact().getContactId());
             contactEmailDTO.setEmail(contactEmailEntity.getEmail());
             contactEmailDTO.setEmailId(contactEmailEntity.getEmailId());
             contactEmailDTO.setEmailType(createEmailType(contactEmailEntity.getEmailType()));
@@ -201,7 +200,7 @@ public class Mapping
         if (contactLinkEntity != null)
         {
             contactLinkDTO = new ContactLinkDTO();
-            contactLinkDTO.setContactId(contactLinkEntity.getContact().getId());
+            contactLinkDTO.setContactId(contactLinkEntity.getContact().getContactId());
             contactLinkDTO.setLink(contactLinkEntity.getLink());
             contactLinkDTO.setLinkId(contactLinkEntity.getLinkId());
             contactLinkDTO.setLinkDescription(contactLinkEntity.getLinkDescription());
@@ -230,7 +229,7 @@ public class Mapping
         if (contactPhoneEntity != null)
         {
             contactPhoneDTO = new ContactPhoneDTO();
-            contactPhoneDTO.setContactId(contactPhoneEntity.getContact().getId());
+            contactPhoneDTO.setContactId(contactPhoneEntity.getContact().getContactId());
             contactPhoneDTO.setPhone(contactPhoneEntity.getPhone());
             contactPhoneDTO.setPhoneId(contactPhoneEntity.getPhoneId());
             contactPhoneDTO.setPhoneType(createPhoneType(contactPhoneEntity.getPhoneType()));

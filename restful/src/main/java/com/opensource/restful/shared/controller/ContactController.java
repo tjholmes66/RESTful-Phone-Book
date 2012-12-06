@@ -41,7 +41,7 @@ public class ContactController
         for (ContactEntity contactEntity : contactEntityList)
         {
             ContactDTO contactDto = new ContactDTO();
-            contactDto.setContactId(contactEntity.getId());
+            contactDto.setContactId(contactEntity.getContactId());
             contactDto.setFirstName(contactEntity.getFirstName());
             contactDto.setLastName(contactEntity.getLastName());
             contactDTOList.add(contactDto);
@@ -66,13 +66,13 @@ public class ContactController
         contactDto.setEnteredBy(contactEntity.getEnteredBy());
         contactDto.setEnteredDate(contactEntity.getEnteredDate());
         contactDto.setFirstName(contactEntity.getFirstName());
-        contactDto.setContactId(contactEntity.getId());
+        contactDto.setContactId(contactEntity.getContactId());
         contactDto.setLastName(contactEntity.getLastName());
         contactDto.setMiddleName(contactEntity.getMiddleName());
         contactDto.setPrefix(contactEntity.getPrefix());
         contactDto.setState(contactEntity.getState());
         contactDto.setSuffix(contactEntity.getSuffix());
-        contactDto.setUserId(contactEntity.getUser().getId());
+        contactDto.setUserId(contactEntity.getUser().getUserId());
         contactDto.setZip(contactEntity.getZip());
 
         return contactDto;

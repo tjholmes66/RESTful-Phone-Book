@@ -18,14 +18,14 @@ public class HeaderWidget extends HLayout
     private final static int HEADER_LABEL_SIZE = 250;
 
     private UserDTO userDto;
-    private String userId;
+    private String userId = "-1";
 
     public HeaderWidget(UserDTO userDto)
     {
         super();
         this.userDto = userDto;
 
-        userId = Long.toString(userDto.getId());
+        userId = Long.toString(userDto.getUserId());
 
         setBorder("1px solid black");
         setWidth100();
@@ -56,7 +56,7 @@ public class HeaderWidget extends HLayout
 
         Label nameLabel = new Label("nameLabel");
         nameLabel.setStyleName("headerLabel");
-        nameLabel.setContents(userDto.getLastname() + ", " + userDto.getFirstname());
+        nameLabel.setContents(userDto.getLastName() + ", " + userDto.getFirstName());
         nameLabel.setWidth(HEADER_LABEL_SIZE);
 
         line1.addMember(nameTitle);

@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cascade;
 
@@ -50,7 +52,7 @@ public class UserEntity implements Serializable
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
-    private long id;
+    private long userId;
 
 // `active` tinyint(1) NOT NULL DEFAULT '1',
     @Column(name = "active")
@@ -99,6 +101,7 @@ public class UserEntity implements Serializable
     private String securityAnswer2;
 
     @Column(name = "birthdate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date birthdate;
 
     @OneToMany(fetch = FetchType.EAGER)
@@ -107,14 +110,14 @@ public class UserEntity implements Serializable
     @JoinColumn(name = "user_id")
     private Set<ContactEntity> contacts;
 
-    public long getId()
+    public long getUserId()
     {
-        return id;
+        return userId;
     }
 
-    public void setId(long id)
+    public void setUserId(long userId)
     {
-        this.id = id;
+        this.userId = userId;
     }
 
     public boolean isActive()
@@ -257,7 +260,7 @@ public class UserEntity implements Serializable
         result = prime * result + ((contacts == null) ? 0 : contacts.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
         result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
-        result = prime * result + (int) (id ^ (id >>> 32));
+        result = prime * result + (int) (userId ^ (userId >>> 32));
         result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
         result = prime * result + ((position == null) ? 0 : position.hashCode());
@@ -309,7 +312,7 @@ public class UserEntity implements Serializable
         }
         else if (!firstname.equals(other.firstname))
             return false;
-        if (id != other.id)
+        if (userId != other.userId)
             return false;
         if (lastname == null)
         {
@@ -373,9 +376,9 @@ public class UserEntity implements Serializable
     @Override
     public String toString()
     {
-        return "UserEntity [id=" + id + ", active=" + active + ", position=" + position + ", username=" + username
-            + ", password=" + password + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
-            + ", securityQuestion1=" + securityQuestion1 + ", securityAnswer1=" + securityAnswer1
+        return "UserEntity [userId=" + userId + ", active=" + active + ", position=" + position + ", username="
+            + username + ", password=" + password + ", firstname=" + firstname + ", lastname=" + lastname + ", email="
+            + email + ", securityQuestion1=" + securityQuestion1 + ", securityAnswer1=" + securityAnswer1
             + ", securityQuestion2=" + securityQuestion2 + ", securityAnswer2=" + securityAnswer2 + ", birthdate="
             + birthdate + ", contacts=" + contacts + "]";
     }

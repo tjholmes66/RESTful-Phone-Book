@@ -20,7 +20,7 @@ import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.widgets.tab.TabSet;
 
-public class MainPage extends Canvas
+public class PhoneBookMain extends Canvas
 {
     private ContactDataSource contactDS = ContactDataSource.getInstance();
 
@@ -35,10 +35,11 @@ public class MainPage extends Canvas
 
     private ListGrid contactList = new ListGrid();
 
-    public MainPage(EventBus eventBus)
+    public PhoneBookMain(EventBus eventBus, UserDTO userDto)
     {
         super();
         this.eventBus = eventBus;
+        this.userDto = userDto;
 
         setHeight100();
         setWidth100();

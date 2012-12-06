@@ -12,7 +12,7 @@ public class ContactDataSource extends AbstractRestDataSource
     {
         if (instance == null)
         {
-            instance = new ContactDataSource("personEditDS");
+            instance = new ContactDataSource("restContactDS");
         }
 
         return instance;

@@ -1,8 +1,8 @@
 package com.opensource.restful.shared.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 
 @SuppressWarnings("serial")
 public class ContactDTO implements Serializable
@@ -25,9 +25,9 @@ public class ContactDTO implements Serializable
     private long editedBy;
     private Date editedDate;
     private Date birthDate;
-    private HashSet<ContactEmailDTO> emails;
-    private HashSet<ContactPhoneDTO> phones;
-    private HashSet<ContactLinkDTO> links;
+    private ArrayList<ContactEmailDTO> emails;
+    private ArrayList<ContactPhoneDTO> phones;
+    private ArrayList<ContactLinkDTO> links;
 
     public long getContactId()
     {
@@ -209,32 +209,32 @@ public class ContactDTO implements Serializable
         this.birthDate = birthDate;
     }
 
-    public HashSet<ContactEmailDTO> getEmails()
+    public ArrayList<ContactEmailDTO> getEmails()
     {
         return emails;
     }
 
-    public void setEmails(HashSet<ContactEmailDTO> emails)
+    public void setEmails(ArrayList<ContactEmailDTO> emails)
     {
         this.emails = emails;
     }
 
-    public HashSet<ContactPhoneDTO> getPhones()
+    public ArrayList<ContactPhoneDTO> getPhones()
     {
         return phones;
     }
 
-    public void setPhones(HashSet<ContactPhoneDTO> phones)
+    public void setPhones(ArrayList<ContactPhoneDTO> phones)
     {
         this.phones = phones;
     }
 
-    public HashSet<ContactLinkDTO> getLinks()
+    public ArrayList<ContactLinkDTO> getLinks()
     {
         return links;
     }
 
-    public void setLinks(HashSet<ContactLinkDTO> links)
+    public void setLinks(ArrayList<ContactLinkDTO> links)
     {
         this.links = links;
     }

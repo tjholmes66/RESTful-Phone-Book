@@ -95,9 +95,17 @@
 	<bean id="contactService" class="com.opensource.restful.shared.service.ContactServiceImpl">
 		<property name="contactDao" ref="contactDao"/>
 	</bean>
-
+	<bean id="loginService" class="com.opensource.restful.shared.service.LoginServiceImpl">
+		<property name="userDao" ref="userDao"/>
+	</bean>
+	<bean id="UserService" class="com.opensource.restful.shared.service.UserServiceImpl">
+		<property name="userDao" ref="userDao"/>
+	</bean>
 	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="contactEmailService" class="com.opensource.restful.shared.service.ContactEmailServiceImpl">
+		<property name="contactEmailDao" ref="contactEmailDao"/>
 	</bean>
 
 	<!-- enable the configuration of transactional behavior based on annotations -->

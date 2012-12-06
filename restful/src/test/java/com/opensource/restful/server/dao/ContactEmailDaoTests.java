@@ -127,7 +127,7 @@ public class ContactEmailDaoTests extends TestCase
             assertNotNull(contactEmail.getEmailId());
             assertNotNull(contactEmail.getContact());
             assertNotNull(contactEmail.getEmailType());
-            assertEquals(contactEmail.getContact().getId(), id);
+            assertEquals(contactEmail.getContact().getContactId(), id);
             assertEquals(contactEmail.getEmailType().getId(), emailTypeId);
             // ************************************************************
             System.out.println("testContactRetrieve: contactEmail=" + contactEmail.toString());
@@ -150,7 +150,7 @@ public class ContactEmailDaoTests extends TestCase
         assertNotNull(contactEmail.getEmailId());
         assertNotNull(contactEmail.getContact());
         assertNotNull(contactEmail.getEmailType());
-        assertEquals(contactEmail.getContact().getId(), id);
+        assertEquals(contactEmail.getContact().getContactId(), id);
         assertEquals(contactEmail.getEmailType().getId(), emailTypeId);
         // ************************************************************
         System.out.println("testContactRetrieve: contactEmail=" + contactEmail.toString());
