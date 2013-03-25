@@ -7,6 +7,8 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.Cookies;
 import com.opensource.restful.client.datasource.LoginDataSource;
+import com.opensource.restful.client.datasource.UserDataSource;
+import com.opensource.restful.client.widget.DateItemWidget;
 import com.opensource.restful.shared.ClientResources;
 import com.opensource.restful.shared.Constants;
 import com.opensource.restful.shared.dto.UserDTO;
@@ -24,7 +26,6 @@ import com.smartgwt.client.widgets.Label;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.form.DynamicForm;
-import com.smartgwt.client.widgets.form.fields.DateItem;
 import com.smartgwt.client.widgets.form.fields.PasswordItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
@@ -36,6 +37,7 @@ public class LoginDialog extends Canvas
     static EventBus eventBus = GWT.create(SimpleEventBus.class);
 
     private final LoginDataSource loginDS = LoginDataSource.getInstance();
+    private final UserDataSource userDS = UserDataSource.getInstance();
 
     static private LoginDialog instance = null;
 
@@ -56,7 +58,8 @@ public class LoginDialog extends Canvas
     private TextItem securityQuestion2Field = new TextItem(Constants.USER_SECURITY_QUESTION_1);
     private TextItem securityAnswer2Field = new TextItem(Constants.USER_SECURITY_ANSWER_1);
     private TextItem positionField = new TextItem(Constants.USER_POSITION_ID);
-    private DateItem birthdateField = new DateItem(Constants.USER_BIRTHDATE);
+    private DateItemWidget birthdateField =
+        new DateItemWidget(Constants.USER_BIRTHDATE, Constants.TITLE_USER_BIRTHDATE);
 
     private VLayout loginLayout = new VLayout();
     private DynamicForm loginForm;
@@ -327,7 +330,7 @@ public class LoginDialog extends Canvas
         // signupLayout.setBorder("5px solid red");
 
         // signupForm.setBorder("10px solid orange");
-        // signupForm.setDataSource(userDS);
+        signupForm.setDataSource(userDS);
         signupForm.setTitleWidth(200);
         signupForm.setWidth(400);
         signupForm.setLayoutAlign(Alignment.CENTER);
@@ -424,7 +427,9 @@ public class LoginDialog extends Canvas
                     record.setAttribute(Constants.USER_SECURITY_ANSWER_1, securityAnswer1Field.getValueAsString());
                     record.setAttribute(Constants.USER_SECURITY_ANSWER_2, securityAnswer2Field.getValueAsString());
                     record.setAttribute(Constants.USER_BIRTHDATE, birthdateField.getValueAsDate());
-                    // userDS.addData(record);
+                    userDS.addData(record);
+                    // signupForm.saveData();
+
                 }
                 else
                 {

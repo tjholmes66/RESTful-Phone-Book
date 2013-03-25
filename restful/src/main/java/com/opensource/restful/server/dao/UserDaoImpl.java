@@ -28,40 +28,34 @@ public class UserDaoImpl implements UserDao
     }
 
     @Override
-    public UserEntity createUserEntity(UserEntity user)
+    public UserEntity createUserEntity(UserEntity userEntity)
     {
-        // this.getHibernateTemplate().saveOrUpdate(user);
-        this.sessionFactory.getCurrentSession().persist(user);
-        return user;
+        this.sessionFactory.getCurrentSession().save(userEntity);
+        this.sessionFactory.getCurrentSession().flush();
+        this.sessionFactory.getCurrentSession().refresh(userEntity);
+        return userEntity;
     }
 
     @Override
-    public UserEntity saveUserEntity(UserEntity user)
+    public UserEntity updateUserEntity(UserEntity userEntity)
     {
-        // this.getHibernateTemplate().saveOrUpdate(user);
-        this.sessionFactory.getCurrentSession().saveOrUpdate(user);
-        return user;
+        this.sessionFactory.getCurrentSession().update(userEntity);
+        this.sessionFactory.getCurrentSession().flush();
+        this.sessionFactory.getCurrentSession().refresh(userEntity);
+        return userEntity;
     }
 
     @Override
-    public UserEntity updateUserEntity(UserEntity user)
+    public void deleteUserEntity(long userId)
     {
-        // this.getHibernateTemplate().saveOrUpdate(user);
-        this.sessionFactory.getCurrentSession().persist(user);
-        return user;
-    }
-
-    @Override
-    public void deleteUserEntity(Long userId)
-    {
-        // this.getgetHibernateTemplate()().delete(interest);
+        // UserEntity deleteUser = (UserEntity) this.sessionFactory.getCurrentSession().get(UserEntity.class, userId);
+        // deleteUserEntity(deleteUser);
     }
 
     @Override
     public void deleteUserEntity(UserEntity user)
     {
-        // this.getHibernateTemplate().delete(user);
-        this.sessionFactory.getCurrentSession().delete(user);
+        // this.sessionFactory.getCurrentSession().delete(user);
     }
 
     @Override
@@ -74,10 +68,10 @@ public class UserDaoImpl implements UserDao
     }
 
     @Override
-    public UserEntity getUserEntity(long id)
+    public UserEntity getUserEntity(long userId)
     {
         // return (UserEntity)this.getHibernateTemplate().get(UserEntity.class, id);
-        return (UserEntity) this.sessionFactory.getCurrentSession().get(UserEntity.class, id);
+        return (UserEntity) this.sessionFactory.getCurrentSession().get(UserEntity.class, userId);
     }
 
     @Override

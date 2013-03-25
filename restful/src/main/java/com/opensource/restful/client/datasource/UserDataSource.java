@@ -1,11 +1,18 @@
 package com.opensource.restful.client.datasource;
 
+import java.util.Map;
+
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.http.client.URL;
 import com.opensource.restful.shared.Constants;
+import com.smartgwt.client.data.DSRequest;
 import com.smartgwt.client.data.fields.DataSourceBooleanField;
 import com.smartgwt.client.data.fields.DataSourceDateField;
 import com.smartgwt.client.data.fields.DataSourceIntegerField;
 import com.smartgwt.client.data.fields.DataSourceTextField;
 import com.smartgwt.client.types.DSDataFormat;
+import com.smartgwt.client.types.DSOperationType;
+import com.smartgwt.client.util.JSOHelper;
 
 public class UserDataSource extends AbstractRestDataSource
 {
@@ -59,8 +66,10 @@ public class UserDataSource extends AbstractRestDataSource
 
         usernameField = new DataSourceTextField(Constants.USER_USERNAME, Constants.TITLE_USER_USERNAME);
         passwordField = new DataSourceTextField(Constants.USER_PASSWORD, Constants.TITLE_USER_PASSWORD);
+
         firstnameField = new DataSourceTextField(Constants.USER_FIRST_NAME, Constants.TITLE_USER_FIRST_NAME);
         lastnameField = new DataSourceTextField(Constants.USER_LAST_NAME, Constants.TITLE_USER_LAST_NAME);
+
         emailField = new DataSourceTextField(Constants.USER_EMAIL, Constants.TITLE_USER_EMAIL);
 
         securityQuestion1Field =
@@ -84,15 +93,56 @@ public class UserDataSource extends AbstractRestDataSource
             securityAnswer2Field, positionIdField);
     }
 
-    @Override
     protected String getServiceRoot()
     {
-        return "rest/user/";
+        return "rest/users/";
     }
 
-    @Override
     protected String getPrimaryKeyProperty()
     {
         return "userId";
+    }
+
+    @Override
+    protected Object transformRequest(DSRequest request)
+    {
+        System.out.println("UserDataSource: transformRequest: ");
+        JavaScriptObject jsObjOld = (JavaScriptObject) request.getData();
+        String[] test1 = JSOHelper.getProperties(jsObjOld);
+
+        Map valueMap = (Map) JSOHelper.convertToMap(jsObjOld);
+        valueMap.remove("__ref");
+
+        JavaScriptObject jsObjNew = JSOHelper.convertMapToJavascriptObject(valueMap);
+        request.setAttribute("data", jsObjNew);
+        request.setData(jsObjNew);
+
+        String[] test2 = JSOHelper.getProperties(jsObjNew);
+
+        super.transformRequest(request);
+
+        // now post process the request for our own means
+        postProcessTransform(request);
+
+        return request.getData();
+    }
+
+    /*
+     * Implementers can override this method to create a 
+     * different override.
+     */
+    @SuppressWarnings("rawtypes")
+    protected void postProcessTransform(DSRequest request)
+    {
+        StringBuilder url = new StringBuilder(getServiceRoot());
+
+        Map dataMap = request.getAttributeAsMap("data");
+        if (request.getOperationType() == DSOperationType.FETCH && dataMap.size() > 0)
+        {
+            url.append("user/" + dataMap.get(Constants.USER_USERNAME));
+            url.append("/pwd/" + dataMap.get(Constants.USER_PASSWORD));
+        }
+
+        request.setActionURL(URL.encode(url.toString()));
     }
 }

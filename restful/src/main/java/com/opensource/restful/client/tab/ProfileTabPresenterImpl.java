@@ -2,6 +2,7 @@ package com.opensource.restful.client.tab;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.opensource.restful.client.handler.ProfileSaveButtonClickHandler;
 
 public class ProfileTabPresenterImpl implements ProfileTabPresenter
 {
@@ -20,9 +21,9 @@ public class ProfileTabPresenterImpl implements ProfileTabPresenter
 
     public void setHandlers()
     {
+        getView().addClickHandlerSaveButton(new ProfileSaveButtonClickHandler(getView(), this));
         // getView().getMembersGrid().addRecordClickHandler(new MemberRecordClickHandler(getView(), this));
         // getView().getNewButton().addClickHandler(new MemberButtonNewClickHandler(getView(), this));
-        // getView().getSaveButton().addClickHandler(new MemberButtonSaveClickHandler(getView(), this));
         // getView().getRefreshButton().addClickHandler(new MemberButtonRefreshClickHandler(getView(), this));
         // getView().getResetButton().addClickHandler(new MemberButtonResetClickHandler(getView(), this));
     }

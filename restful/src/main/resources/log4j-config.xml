@@ -41,7 +41,7 @@
 	</appender>
 	
 	<!--  Set debug level logging for our classes. -->
-	<logger name="com.opensource.troop22">
+	<logger name="com.opensource.restful">
 		<level value="debug" />
 	</logger>
 

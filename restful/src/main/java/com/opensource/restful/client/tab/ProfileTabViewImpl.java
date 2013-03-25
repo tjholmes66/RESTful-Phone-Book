@@ -2,6 +2,7 @@ package com.opensource.restful.client.tab;
 
 import com.google.gwt.event.shared.EventBus;
 import com.opensource.restful.client.datasource.UserDataSource;
+import com.opensource.restful.client.handler.ProfileSaveButtonClickHandler;
 import com.opensource.restful.shared.Constants;
 import com.opensource.restful.shared.dto.UserDTO;
 import com.smartgwt.client.data.Record;
@@ -25,10 +26,11 @@ public class ProfileTabViewImpl implements ProfileTabView
 
     private UserDataSource userDS = UserDataSource.getInstance();
 
-    private UserDTO userDto;
-    private EventBus eventBus;
+    private UserDTO _userDto;
+    private EventBus _eventBus;
 
     private final DynamicForm profileForm = new DynamicForm();
+
     private TextItem idField;
     private TextItem usernameField = new TextItem(Constants.USER_USERNAME);
     private TextItem firstnameField = new TextItem(Constants.USER_FIRST_NAME);
@@ -42,15 +44,18 @@ public class ProfileTabViewImpl implements ProfileTabView
     private DateItem birthdateField = new DateItem(Constants.USER_BIRTHDATE);
 
     private final DynamicForm passwordForm = new DynamicForm();
+
     private PasswordItem oldPasswordField = new PasswordItem(Constants.USER_OLD_PASSWORD);
     private PasswordItem newPasswordField = new PasswordItem(Constants.USER_NEW_PASSWORD);
     private PasswordItem retypePasswordField = new PasswordItem(Constants.USER_RETYPE_PASSWORD);
 
-    public ProfileTabViewImpl(String ID, EventBus event, UserDTO userDto)
+    IButton saveProfileBtn = new IButton(Constants.BUTTON_SAVE);
+
+    public ProfileTabViewImpl(String ID, EventBus eventBus, UserDTO userDto)
     {
         super();
-        this.userDto = userDto;
-        this.eventBus = eventBus;
+        this._userDto = userDto;
+        this._eventBus = eventBus;
 
         profileTab.setTitle(ID);
 
@@ -73,31 +78,6 @@ public class ProfileTabViewImpl implements ProfileTabView
         profileLayout.setPadding(10);
         profileLayout.setBorder("5px solid red");
 
-        IButton saveProfileBtn = new IButton("Save");
-        saveProfileBtn.addClickHandler(new ClickHandler()
-        {
-
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                Record record = new ListGridRecord();
-                record.setAttribute(Constants.USER_ID, Long.parseLong(idField.getValueAsString()));
-                record.setAttribute(Constants.USER_ACTIVE, true);
-                record.setAttribute(Constants.USER_POSITION_ID, 2);
-                record.setAttribute(Constants.USER_USERNAME, usernameField.getValueAsString());
-                record.setAttribute(Constants.USER_EMAIL, emailField.getValueAsString());
-                record.setAttribute(Constants.USER_FIRST_NAME, firstnameField.getValueAsString());
-                record.setAttribute(Constants.USER_LAST_NAME, lastnameField.getValueAsString());
-                record.setAttribute(Constants.USER_SECURITY_QUESTION_1, securityQuestion1Field.getValueAsString());
-                record.setAttribute(Constants.USER_SECURITY_QUESTION_2, securityQuestion2Field.getValueAsString());
-                record.setAttribute(Constants.USER_SECURITY_ANSWER_1, securityAnswer1Field.getValueAsString());
-                record.setAttribute(Constants.USER_SECURITY_ANSWER_2, securityAnswer2Field.getValueAsString());
-                record.setAttribute(Constants.USER_BIRTHDATE, birthdateField.getValueAsDate());
-                // userDS.updateData(record);
-            }
-
-        });
-
         profileLayout.addMember(getProfileForm());
         profileLayout.addMember(saveProfileBtn);
 
@@ -118,49 +98,49 @@ public class ProfileTabViewImpl implements ProfileTabView
         idField.setTabIndex(0);
         idField.setRequired(true);
         idField.setSelectOnFocus(true);
-        idField.setDefaultValue(Long.toString(userDto.getUserId()));
+        idField.setDefaultValue(Long.toString(_userDto.getUserId()));
         idField.setVisible(false);
 
         usernameField.setTitle(Constants.TITLE_USER_USERNAME);
         usernameField.setIconVAlign(VerticalAlignment.CENTER);
         usernameField.setRequired(true);
         usernameField.setDisabled(true);
-        usernameField.setDefaultValue(userDto.getUsername());
+        usernameField.setDefaultValue(_userDto.getUsername());
 
         firstnameField.setTitle(Constants.TITLE_USER_FIRST_NAME);
         firstnameField.setIconVAlign(VerticalAlignment.CENTER);
         firstnameField.setRequired(true);
-        firstnameField.setDefaultValue(userDto.getFirstName());
+        firstnameField.setDefaultValue(_userDto.getFirstName());
 
         lastnameField.setTitle(Constants.TITLE_USER_LAST_NAME);
         lastnameField.setIconVAlign(VerticalAlignment.CENTER);
         lastnameField.setRequired(true);
-        lastnameField.setDefaultValue(userDto.getLastName());
+        lastnameField.setDefaultValue(_userDto.getLastName());
 
         emailField.setTitle(Constants.TITLE_USER_EMAIL);
         emailField.setIconVAlign(VerticalAlignment.CENTER);
         emailField.setRequired(true);
-        emailField.setDefaultValue(userDto.getEmail());
+        emailField.setDefaultValue(_userDto.getEmail());
 
         securityQuestion1Field.setTitle(Constants.TITLE_USER_SECURITY_QUESTION_1);
         securityQuestion1Field.setIconVAlign(VerticalAlignment.CENTER);
         securityQuestion1Field.setRequired(true);
-        securityQuestion1Field.setDefaultValue(userDto.getSecurityQuestion1());
+        securityQuestion1Field.setDefaultValue(_userDto.getSecurityQuestion1());
 
         securityAnswer1Field.setTitle(Constants.TITLE_USER_SECURITY_ANSWER_1);
         securityAnswer1Field.setIconVAlign(VerticalAlignment.CENTER);
         securityAnswer1Field.setRequired(true);
-        securityAnswer1Field.setDefaultValue(userDto.getSecurityAnswer1());
+        securityAnswer1Field.setDefaultValue(_userDto.getSecurityAnswer1());
 
         securityQuestion2Field.setTitle(Constants.TITLE_USER_SECURITY_QUESTION_2);
         securityQuestion2Field.setIconVAlign(VerticalAlignment.CENTER);
         securityQuestion2Field.setRequired(true);
-        securityQuestion2Field.setDefaultValue(userDto.getSecurityQuestion2());
+        securityQuestion2Field.setDefaultValue(_userDto.getSecurityQuestion2());
 
         securityAnswer2Field.setTitle(Constants.TITLE_USER_SECURITY_ANSWER_2);
         securityAnswer2Field.setIconVAlign(VerticalAlignment.CENTER);
         securityAnswer2Field.setRequired(true);
-        securityAnswer2Field.setDefaultValue(userDto.getSecurityAnswer2());
+        securityAnswer2Field.setDefaultValue(_userDto.getSecurityAnswer2());
 
         positionField.setTitle(Constants.TITLE_USER_POSITION_ID);
         positionField.setDefaultValue(2);
@@ -168,7 +148,7 @@ public class ProfileTabViewImpl implements ProfileTabView
 
         birthdateField.setTitle(Constants.TITLE_USER_BIRTHDATE);
         birthdateField.setIconVAlign(VerticalAlignment.CENTER);
-        birthdateField.setDefaultValue(userDto.getBirthdate());
+        birthdateField.setDefaultValue(_userDto.getBirthdate());
         birthdateField.setVisible(true);
         birthdateField.setRequired(true);
 
@@ -232,7 +212,7 @@ public class ProfileTabViewImpl implements ProfileTabView
         {
             sb.append("Retype Password cannot be left blank!<br/>");
         }
-        if (!userDto.getPassword().equals(oldPasswordField.getValue()))
+        if (!_userDto.getPassword().equals(oldPasswordField.getValue()))
         {
             sb.append("Old Password does not match current password!<br/>");
         }
@@ -262,7 +242,7 @@ public class ProfileTabViewImpl implements ProfileTabView
         idField.setTabIndex(0);
         idField.setRequired(true);
         idField.setSelectOnFocus(true);
-        idField.setDefaultValue(Long.toString(userDto.getUserId()));
+        idField.setDefaultValue(Long.toString(_userDto.getUserId()));
         idField.setVisible(false);
 
         oldPasswordField.setTitle(Constants.TITLE_USER_OLD_PASSWORD);
@@ -286,6 +266,18 @@ public class ProfileTabViewImpl implements ProfileTabView
     public Tab getProfileTab()
     {
         return profileTab;
+    }
+
+    @Override
+    public void saveProfileForm()
+    {
+        profileForm.saveData();
+    }
+
+    @Override
+    public void addClickHandlerSaveButton(ProfileSaveButtonClickHandler profileSaveButtonClickHandler)
+    {
+        saveProfileBtn.addClickHandler(profileSaveButtonClickHandler);
     }
 
 }

@@ -78,13 +78,17 @@ public abstract class AbstractRestDataSource extends RestDataSource
         }
         else if (request.getOperationType() == DSOperationType.UPDATE)
         {
+            url.append("update");
             appendParameters(url, request);
         }
         else if (request.getOperationType() == DSOperationType.FETCH && dataMap.size() > 0)
         {
             url.append(getPrimaryKeyProperty()).append("/").append(dataMap.get(getPrimaryKeyProperty()));
         }
-
+        else if (request.getOperationType() == DSOperationType.ADD)
+        {
+            url.append("create");
+        }
         request.setActionURL(URL.encode(url.toString()));
     }
 
