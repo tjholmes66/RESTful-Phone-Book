@@ -37,6 +37,8 @@ public class LoginDataSource extends AbstractRestDataSource
 
     protected void init()
     {
+        System.out.println("init: START");
+
         setDataFormat(DSDataFormat.JSON);
         setJsonRecordXPath("/");
 
@@ -51,6 +53,7 @@ public class LoginDataSource extends AbstractRestDataSource
         DataSourceTextField password = new DataSourceTextField(Constants.USER_PASSWORD, Constants.TITLE_USER_PASSWORD);
         password.setCanEdit(false);
 
+        System.out.println("init: FINISH");
         setFields(Id, username, password);
     }
 
@@ -73,21 +76,26 @@ public class LoginDataSource extends AbstractRestDataSource
     @SuppressWarnings("rawtypes")
     protected void postProcessTransform(DSRequest request)
     {
+        System.out.println("LoginDataSource: postProcessTransform: START");
+
         StringBuilder url = new StringBuilder(getServiceRoot());
+        System.out.println("postProcessTransform: url=" + url);
 
         Map dataMap = request.getAttributeAsMap("data");
+        System.out.println("postProcessTransform: dataMap=" + dataMap.toString());
         if (request.getOperationType() == DSOperationType.FETCH && dataMap.size() > 0)
         {
             url.append("user/" + dataMap.get(Constants.USER_USERNAME));
             url.append("/pwd/" + dataMap.get(Constants.USER_PASSWORD));
         }
 
+        System.out.println("LoginDataSource: postProcessTransform: url=" + url.toString());
         request.setActionURL(URL.encode(url.toString()));
     }
 
     protected void transformResponse(DSResponse response, DSRequest request, Object jsonData)
     {
-        System.out.println("transformResponse");
+        System.out.println("LoginDataSource: transformResponse: START");
         JavaScriptObject jsObj = (JavaScriptObject) jsonData;
 
         long userId = 0;
@@ -97,6 +105,7 @@ public class LoginDataSource extends AbstractRestDataSource
             userId = Long.parseLong(strUserId);
         }
         UserDTO userDto = null;
+        System.out.println("LoginDataSource: transformResponse: userDto=" + userDto);
 
         if (userId != 0)
         {
@@ -105,9 +114,9 @@ public class LoginDataSource extends AbstractRestDataSource
             String[] test = JSOHelper.getProperties(jsObj);
             String attrs = response.getAttribute("data");
 
-            userDto.setActive(JSOHelper.getAttributeAsBoolean(jsObj, "active"));
+            userDto.setUserActive(JSOHelper.getAttributeAsBoolean(jsObj, Constants.USER_ACTIVE));
 
-            String strDob = JSOHelper.getAttribute(jsObj, "birthdate");
+            String strDob = JSOHelper.getAttribute(jsObj, Constants.USER_BIRTHDATE);
             Date birthdate = null;
             if (strDob != null)
             {
@@ -115,13 +124,13 @@ public class LoginDataSource extends AbstractRestDataSource
                 birthdate = new Date(longDob);
             }
 
-            userDto.setBirthdate(birthdate);
+            userDto.setUserBirthDate(birthdate);
 
-            userDto.setEmail(JSOHelper.getAttribute(jsObj, "email"));
-            userDto.setFirstName(JSOHelper.getAttribute(jsObj, "firstName"));
+            userDto.setUserEmail(JSOHelper.getAttribute(jsObj, Constants.USER_EMAIL));
+            userDto.setUserFirstName(JSOHelper.getAttribute(jsObj, Constants.USER_FIRST_NAME));
             userDto.setUserId(userId);
-            userDto.setLastName(JSOHelper.getAttribute(jsObj, "lastName"));
-            userDto.setPassword(JSOHelper.getAttribute(jsObj, "password"));
+            userDto.setUserLastName(JSOHelper.getAttribute(jsObj, Constants.USER_FIRST_NAME));
+            userDto.setPassword(JSOHelper.getAttribute(jsObj, Constants.USER_LAST_NAME));
 
             JavaScriptObject jsObjPosition = (JavaScriptObject) JSOHelper.getAttributeAsObject(jsObj, "position");
             if (jsObjPosition != null)
@@ -167,15 +176,17 @@ public class LoginDataSource extends AbstractRestDataSource
             }
             userDto.setContacts(contactList);
 
-            userDto.setSecurityAnswer1(JSOHelper.getAttribute(jsObj, "securityAnswer1"));
-            userDto.setSecurityAnswer2(JSOHelper.getAttribute(jsObj, "securityAnswer2"));
-            userDto.setSecurityQuestion1(JSOHelper.getAttribute(jsObj, "securityQuestion1"));
-            userDto.setSecurityQuestion2(JSOHelper.getAttribute(jsObj, "securityQuestion2"));
+            userDto.setUserSecurityAnswer1(JSOHelper.getAttribute(jsObj, Constants.USER_SECURITY_ANSWER_1));
+            userDto.setUserSecurityAnswer2(JSOHelper.getAttribute(jsObj, Constants.USER_SECURITY_ANSWER_2));
+            userDto.setUserSecurityQuestion1(JSOHelper.getAttribute(jsObj, Constants.USER_SECURITY_QUESTION_1));
+            userDto.setUserSecurityQuestion2(JSOHelper.getAttribute(jsObj, Constants.USER_SECURITY_QUESTION_2));
             userDto.setUsername(JSOHelper.getAttribute(jsObj, "username"));
         }
 
+        System.out.println("LoginDataSource: transformResponse: finished: userDto=" + userDto);
         response.setAttribute("user", userDto);
 
+        System.out.println("LoginDataSource: super.transformResponse: jsonData=" + jsonData);
         super.transformResponse(response, request, jsonData);
     }
 

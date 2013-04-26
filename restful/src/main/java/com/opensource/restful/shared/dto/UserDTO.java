@@ -8,18 +8,18 @@ import java.util.Date;
 public class UserDTO implements Serializable
 {
     private long userId;
-    private boolean active;
+    private boolean userActive;
     private PositionDTO position;
     private String username;
     private String password;
-    private String firstname;
-    private String lastname;
-    private String email;
-    private String securityQuestion1;
-    private String securityAnswer1;
-    private String securityQuestion2;
-    private String securityAnswer2;
-    private Date birthdate;
+    private String userFirstName;
+    private String userLastName;
+    private String userEmail;
+    private String userSecurityQuestion1;
+    private String userSecurityAnswer1;
+    private String userSecurityQuestion2;
+    private String userSecurityAnswer2;
+    private Date userBirthDate;
     private ArrayList<ContactDTO> contacts;
 
     public long getUserId()
@@ -32,14 +32,14 @@ public class UserDTO implements Serializable
         this.userId = userId;
     }
 
-    public boolean isActive()
+    public boolean isUserActive()
     {
-        return active;
+        return userActive;
     }
 
-    public void setActive(boolean active)
+    public void setUserActive(boolean userActive)
     {
-        this.active = active;
+        this.userActive = userActive;
     }
 
     public PositionDTO getPosition()
@@ -72,24 +72,74 @@ public class UserDTO implements Serializable
         this.password = password;
     }
 
-    public String getFirstName()
+    public String getUserFirstName()
     {
-        return firstname;
+        return userFirstName;
     }
 
-    public void setFirstName(String firstname)
+    public void setUserFirstName(String userFirstName)
     {
-        this.firstname = firstname;
+        this.userFirstName = userFirstName;
     }
 
-    public String getLastName()
+    public String getUserLastName()
     {
-        return lastname;
+        return userLastName;
     }
 
-    public void setLastName(String lastname)
+    public void setUserLastName(String userLastName)
     {
-        this.lastname = lastname;
+        this.userLastName = userLastName;
+    }
+
+    public String getUserEmail()
+    {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail)
+    {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserSecurityQuestion1()
+    {
+        return userSecurityQuestion1;
+    }
+
+    public void setUserSecurityQuestion1(String userSecurityQuestion1)
+    {
+        this.userSecurityQuestion1 = userSecurityQuestion1;
+    }
+
+    public String getUserSecurityAnswer1()
+    {
+        return userSecurityAnswer1;
+    }
+
+    public void setUserSecurityAnswer1(String userSecurityAnswer1)
+    {
+        this.userSecurityAnswer1 = userSecurityAnswer1;
+    }
+
+    public String getUserSecurityQuestion2()
+    {
+        return userSecurityQuestion2;
+    }
+
+    public void setUserSecurityQuestion2(String userSecurityQuestion2)
+    {
+        this.userSecurityQuestion2 = userSecurityQuestion2;
+    }
+
+    public String getUserSecurityAnswer2()
+    {
+        return userSecurityAnswer2;
+    }
+
+    public void setUserSecurityAnswer2(String userSecurityAnswer2)
+    {
+        this.userSecurityAnswer2 = userSecurityAnswer2;
     }
 
     public ArrayList<ContactDTO> getContacts()
@@ -102,64 +152,14 @@ public class UserDTO implements Serializable
         this.contacts = contacts;
     }
 
-    public String getEmail()
+    public Date getUserBirthDate()
     {
-        return email;
+        return userBirthDate;
     }
 
-    public void setEmail(String email)
+    public void setUserBirthDate(Date userBirthDate)
     {
-        this.email = email;
-    }
-
-    public String getSecurityQuestion1()
-    {
-        return securityQuestion1;
-    }
-
-    public void setSecurityQuestion1(String securityQuestion1)
-    {
-        this.securityQuestion1 = securityQuestion1;
-    }
-
-    public String getSecurityAnswer1()
-    {
-        return securityAnswer1;
-    }
-
-    public void setSecurityAnswer1(String securityAnswer1)
-    {
-        this.securityAnswer1 = securityAnswer1;
-    }
-
-    public String getSecurityQuestion2()
-    {
-        return securityQuestion2;
-    }
-
-    public void setSecurityQuestion2(String securityQuestion2)
-    {
-        this.securityQuestion2 = securityQuestion2;
-    }
-
-    public String getSecurityAnswer2()
-    {
-        return securityAnswer2;
-    }
-
-    public void setSecurityAnswer2(String securityAnswer2)
-    {
-        this.securityAnswer2 = securityAnswer2;
-    }
-
-    public Date getBirthdate()
-    {
-        return birthdate;
-    }
-
-    public void setBirthdate(Date birthdate)
-    {
-        this.birthdate = birthdate;
+        this.userBirthDate = userBirthDate;
     }
 
     @Override
@@ -167,19 +167,19 @@ public class UserDTO implements Serializable
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (active ? 1231 : 1237);
-        result = prime * result + ((birthdate == null) ? 0 : birthdate.hashCode());
         result = prime * result + ((contacts == null) ? 0 : contacts.hashCode());
-        result = prime * result + ((email == null) ? 0 : email.hashCode());
-        result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
-        result = prime * result + (int) (userId ^ (userId >>> 32));
-        result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
         result = prime * result + ((position == null) ? 0 : position.hashCode());
-        result = prime * result + ((securityAnswer1 == null) ? 0 : securityAnswer1.hashCode());
-        result = prime * result + ((securityAnswer2 == null) ? 0 : securityAnswer2.hashCode());
-        result = prime * result + ((securityQuestion1 == null) ? 0 : securityQuestion1.hashCode());
-        result = prime * result + ((securityQuestion2 == null) ? 0 : securityQuestion2.hashCode());
+        result = prime * result + (userActive ? 1231 : 1237);
+        result = prime * result + ((userBirthDate == null) ? 0 : userBirthDate.hashCode());
+        result = prime * result + ((userEmail == null) ? 0 : userEmail.hashCode());
+        result = prime * result + ((userFirstName == null) ? 0 : userFirstName.hashCode());
+        result = prime * result + (int) (userId ^ (userId >>> 32));
+        result = prime * result + ((userLastName == null) ? 0 : userLastName.hashCode());
+        result = prime * result + ((userSecurityAnswer1 == null) ? 0 : userSecurityAnswer1.hashCode());
+        result = prime * result + ((userSecurityAnswer2 == null) ? 0 : userSecurityAnswer2.hashCode());
+        result = prime * result + ((userSecurityQuestion1 == null) ? 0 : userSecurityQuestion1.hashCode());
+        result = prime * result + ((userSecurityQuestion2 == null) ? 0 : userSecurityQuestion2.hashCode());
         result = prime * result + ((username == null) ? 0 : username.hashCode());
         return result;
     }
@@ -194,44 +194,12 @@ public class UserDTO implements Serializable
         if (getClass() != obj.getClass())
             return false;
         UserDTO other = (UserDTO) obj;
-        if (active != other.active)
-            return false;
-        if (birthdate == null)
-        {
-            if (other.birthdate != null)
-                return false;
-        }
-        else if (!birthdate.equals(other.birthdate))
-            return false;
         if (contacts == null)
         {
             if (other.contacts != null)
                 return false;
         }
         else if (!contacts.equals(other.contacts))
-            return false;
-        if (email == null)
-        {
-            if (other.email != null)
-                return false;
-        }
-        else if (!email.equals(other.email))
-            return false;
-        if (firstname == null)
-        {
-            if (other.firstname != null)
-                return false;
-        }
-        else if (!firstname.equals(other.firstname))
-            return false;
-        if (userId != other.userId)
-            return false;
-        if (lastname == null)
-        {
-            if (other.lastname != null)
-                return false;
-        }
-        else if (!lastname.equals(other.lastname))
             return false;
         if (password == null)
         {
@@ -247,33 +215,65 @@ public class UserDTO implements Serializable
         }
         else if (!position.equals(other.position))
             return false;
-        if (securityAnswer1 == null)
-        {
-            if (other.securityAnswer1 != null)
-                return false;
-        }
-        else if (!securityAnswer1.equals(other.securityAnswer1))
+        if (userActive != other.userActive)
             return false;
-        if (securityAnswer2 == null)
+        if (userBirthDate == null)
         {
-            if (other.securityAnswer2 != null)
+            if (other.userBirthDate != null)
                 return false;
         }
-        else if (!securityAnswer2.equals(other.securityAnswer2))
+        else if (!userBirthDate.equals(other.userBirthDate))
             return false;
-        if (securityQuestion1 == null)
+        if (userEmail == null)
         {
-            if (other.securityQuestion1 != null)
+            if (other.userEmail != null)
                 return false;
         }
-        else if (!securityQuestion1.equals(other.securityQuestion1))
+        else if (!userEmail.equals(other.userEmail))
             return false;
-        if (securityQuestion2 == null)
+        if (userFirstName == null)
         {
-            if (other.securityQuestion2 != null)
+            if (other.userFirstName != null)
                 return false;
         }
-        else if (!securityQuestion2.equals(other.securityQuestion2))
+        else if (!userFirstName.equals(other.userFirstName))
+            return false;
+        if (userId != other.userId)
+            return false;
+        if (userLastName == null)
+        {
+            if (other.userLastName != null)
+                return false;
+        }
+        else if (!userLastName.equals(other.userLastName))
+            return false;
+        if (userSecurityAnswer1 == null)
+        {
+            if (other.userSecurityAnswer1 != null)
+                return false;
+        }
+        else if (!userSecurityAnswer1.equals(other.userSecurityAnswer1))
+            return false;
+        if (userSecurityAnswer2 == null)
+        {
+            if (other.userSecurityAnswer2 != null)
+                return false;
+        }
+        else if (!userSecurityAnswer2.equals(other.userSecurityAnswer2))
+            return false;
+        if (userSecurityQuestion1 == null)
+        {
+            if (other.userSecurityQuestion1 != null)
+                return false;
+        }
+        else if (!userSecurityQuestion1.equals(other.userSecurityQuestion1))
+            return false;
+        if (userSecurityQuestion2 == null)
+        {
+            if (other.userSecurityQuestion2 != null)
+                return false;
+        }
+        else if (!userSecurityQuestion2.equals(other.userSecurityQuestion2))
             return false;
         if (username == null)
         {
@@ -288,11 +288,12 @@ public class UserDTO implements Serializable
     @Override
     public String toString()
     {
-        return "UserDTO [userId=" + userId + ", active=" + active + ", position=" + position + ", username=" + username
-            + ", password=" + password + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
-            + ", securityQuestion1=" + securityQuestion1 + ", securityAnswer1=" + securityAnswer1
-            + ", securityQuestion2=" + securityQuestion2 + ", securityAnswer2=" + securityAnswer2 + ", birthdate="
-            + birthdate + ", contacts=" + contacts + "]";
+        return "UserDTO [userId=" + userId + ", userActive=" + userActive + ", position=" + position + ", username="
+            + username + ", password=" + password + ", userFirstName=" + userFirstName + ", userLastName="
+            + userLastName + ", userEmail=" + userEmail + ", userSecurityQuestion1=" + userSecurityQuestion1
+            + ", userSecurityAnswer1=" + userSecurityAnswer1 + ", userSecurityQuestion2=" + userSecurityQuestion2
+            + ", userSecurityAnswer2=" + userSecurityAnswer2 + ", userBirthDate=" + userBirthDate + ", contacts="
+            + contacts + "]";
     }
 
 }

@@ -43,18 +43,18 @@ public class UserServiceImpl implements IUserService
     {
         UserEntity newUser = new UserEntity();
         newUser.setUserId(userDto.getUserId());
-        newUser.setActive(userDto.isActive());
-        newUser.setEmail(userDto.getEmail());
-        newUser.setFirstname(userDto.getFirstName());
-        newUser.setLastname(userDto.getLastName());
+        newUser.setActive(userDto.isUserActive());
+        newUser.setEmail(userDto.getUserEmail());
+        newUser.setFirstname(userDto.getUserFirstName());
+        newUser.setLastname(userDto.getUserLastName());
         newUser.setUsername(userDto.getUsername());
         newUser.setPassword(userDto.getPassword());
-        newUser.setBirthdate(userDto.getBirthdate());
+        newUser.setBirthdate(userDto.getUserBirthDate());
         // ***************************************************
-        newUser.setSecurityQuestion1(userDto.getSecurityQuestion1());
-        newUser.setSecurityAnswer1(userDto.getSecurityAnswer1());
-        newUser.setSecurityQuestion2(userDto.getSecurityQuestion2());
-        newUser.setSecurityAnswer2(userDto.getSecurityAnswer2());
+        newUser.setSecurityQuestion1(userDto.getUserSecurityQuestion1());
+        newUser.setSecurityAnswer1(userDto.getUserSecurityAnswer1());
+        newUser.setSecurityQuestion2(userDto.getUserSecurityQuestion2());
+        newUser.setSecurityAnswer2(userDto.getUserSecurityAnswer2());
         // ***************************************************
         PositionEntity positionEntity = new PositionEntity();
         positionEntity.setId(userDto.getPosition().getId());
@@ -81,18 +81,18 @@ public class UserServiceImpl implements IUserService
     {
         UserEntity newUser = userDao.getUserEntity(userDto.getUserId());
         newUser.setUserId(userDto.getUserId());
-        newUser.setActive(userDto.isActive());
-        if (userDto.getEmail() != null)
+        newUser.setActive(userDto.isUserActive());
+        if (userDto.getUserEmail() != null)
         {
-            newUser.setEmail(userDto.getEmail());
+            newUser.setEmail(userDto.getUserEmail());
         }
-        if (userDto.getFirstName() != null)
+        if (userDto.getUserFirstName() != null)
         {
-            newUser.setFirstname(userDto.getFirstName());
+            newUser.setFirstname(userDto.getUserFirstName());
         }
-        if (userDto.getLastName() != null)
+        if (userDto.getUserLastName() != null)
         {
-            newUser.setLastname(userDto.getLastName());
+            newUser.setLastname(userDto.getUserLastName());
         }
         if (userDto.getUsername() != null)
         {
@@ -102,27 +102,27 @@ public class UserServiceImpl implements IUserService
         {
             newUser.setPassword(userDto.getPassword());
         }
-        if (userDto.getBirthdate() != null)
+        if (userDto.getUserBirthDate() != null)
         {
-            newUser.setBirthdate(userDto.getBirthdate());
+            newUser.setBirthdate(userDto.getUserBirthDate());
         }
         // ***************************************************
-        if (userDto.getSecurityQuestion1() != null)
+        if (userDto.getUserSecurityQuestion1() != null)
         {
-            newUser.setSecurityQuestion1(userDto.getSecurityQuestion1());
+            newUser.setSecurityQuestion1(userDto.getUserSecurityQuestion1());
         }
-        if (userDto.getSecurityAnswer1() != null)
+        if (userDto.getUserSecurityAnswer1() != null)
         {
-            newUser.setSecurityAnswer1(userDto.getSecurityAnswer1());
+            newUser.setSecurityAnswer1(userDto.getUserSecurityAnswer1());
         }
         // ***************************************************
-        if (userDto.getSecurityQuestion2() != null)
+        if (userDto.getUserSecurityQuestion2() != null)
         {
-            newUser.setSecurityQuestion2(userDto.getSecurityQuestion2());
+            newUser.setSecurityQuestion2(userDto.getUserSecurityQuestion2());
         }
-        if (userDto.getSecurityAnswer2() != null)
+        if (userDto.getUserSecurityAnswer2() != null)
         {
-            newUser.setSecurityAnswer2(userDto.getSecurityAnswer2());
+            newUser.setSecurityAnswer2(userDto.getUserSecurityAnswer2());
         }
         // ***************************************************
         if (userDto.getPosition() != null)

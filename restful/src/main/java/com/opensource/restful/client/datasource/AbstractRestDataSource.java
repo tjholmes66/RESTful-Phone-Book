@@ -28,13 +28,21 @@ public abstract class AbstractRestDataSource extends RestDataSource
         // set up ADD to use POST requests
         OperationBinding add = new OperationBinding();
         add.setOperationType(DSOperationType.ADD);
-        add.setDataProtocol(DSProtocol.POSTPARAMS);
+        add.setDataProtocol(DSProtocol.POSTMESSAGE);
+        // ===========================================
+        DSRequest addProps = new DSRequest();
+        addProps.setHttpMethod("POST");
+        addProps.setContentType("application/json");
+        add.setRequestProperties(addProps);
 
         // set up UPDATE to use PUT
         OperationBinding update = new OperationBinding();
         update.setOperationType(DSOperationType.UPDATE);
+        update.setDataProtocol(DSProtocol.POSTMESSAGE);
+        // ===========================================
         DSRequest updateProps = new DSRequest();
         updateProps.setHttpMethod("PUT");
+        updateProps.setContentType("application/json");
         update.setRequestProperties(updateProps);
 
         // set up REMOVE to use DELETE
@@ -53,10 +61,10 @@ public abstract class AbstractRestDataSource extends RestDataSource
     @Override
     protected Object transformRequest(DSRequest request)
     {
-        super.transformRequest(request);
-
         // now post process the request for our own means
         postProcessTransform(request);
+
+        super.transformRequest(request);
 
         return request.getData();
     }
@@ -89,6 +97,8 @@ public abstract class AbstractRestDataSource extends RestDataSource
         {
             url.append("create");
         }
+
+        System.out.println("AbstractRestDataSource: postProcessTransform: url=" + url.toString());
         request.setActionURL(URL.encode(url.toString()));
     }
 

@@ -54,20 +54,20 @@ public class UserServiceImplTests extends TestCase
     {
         UserDTO userDto = new UserDTO();
         userDto.setUserId(id);
-        userDto.setActive(true);
-        userDto.setEmail(email);
+        userDto.setUserActive(true);
+        userDto.setUserEmail(email);
         PositionDTO position = new PositionDTO();
         position.setId(positionId);
         position.setActive(true);
         userDto.setPosition(position);
-        userDto.setFirstName(firstname);
-        userDto.setLastName(lastname);
+        userDto.setUserFirstName(firstname);
+        userDto.setUserLastName(lastname);
         userDto.setUsername(username);
         userDto.setPassword(password);
-        userDto.setSecurityQuestion1(securityQuestion1);
-        userDto.setSecurityAnswer1(securityAnswer1);
-        userDto.setSecurityQuestion2(securityQuestion2);
-        userDto.setSecurityAnswer2(securityAnswer2);
+        userDto.setUserSecurityQuestion1(securityQuestion1);
+        userDto.setUserSecurityAnswer1(securityAnswer1);
+        userDto.setUserSecurityQuestion2(securityQuestion2);
+        userDto.setUserSecurityAnswer2(securityAnswer2);
         return userDto;
     }
 
@@ -117,20 +117,20 @@ public class UserServiceImplTests extends TestCase
         // ==================================================
         UserDTO userDto = new UserDTO();
         userDto.setUserId(userId);
-        userDto.setActive(false);
-        userDto.setEmail(email);
+        userDto.setUserActive(false);
+        userDto.setUserEmail(email);
         PositionDTO position = new PositionDTO();
         position.setId(positionId);
         position.setActive(true);
         userDto.setPosition(position);
-        userDto.setFirstName(firstname);
-        userDto.setLastName(lastname);
+        userDto.setUserFirstName(firstname);
+        userDto.setUserLastName(lastname);
         userDto.setUsername(username);
         userDto.setPassword(password);
-        userDto.setSecurityQuestion1(securityQuestion1);
-        userDto.setSecurityAnswer1(securityAnswer1);
-        userDto.setSecurityQuestion2(securityQuestion2);
-        userDto.setSecurityAnswer2(securityAnswer2);
+        userDto.setUserSecurityQuestion1(securityQuestion1);
+        userDto.setUserSecurityAnswer1(securityAnswer1);
+        userDto.setUserSecurityQuestion2(securityQuestion2);
+        userDto.setUserSecurityAnswer2(securityAnswer2);
         // ==================================================
         UserEntity user = service.update(userDto);
         assertNotNull(user);

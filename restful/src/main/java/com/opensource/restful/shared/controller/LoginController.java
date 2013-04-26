@@ -47,12 +47,12 @@ public class LoginController
         {
             // userDto = new UserDTO();
 
-            userDto.setActive(userEntity.isActive());
-            userDto.setBirthdate(userEntity.getBirthdate());
-            userDto.setEmail(userEntity.getEmail());
-            userDto.setFirstName(userEntity.getFirstname());
+            userDto.setUserActive(userEntity.isActive());
+            userDto.setUserBirthDate(userEntity.getBirthdate());
+            userDto.setUserEmail(userEntity.getEmail());
+            userDto.setUserFirstName(userEntity.getFirstname());
             userDto.setUserId(userEntity.getUserId());
-            userDto.setLastName(userEntity.getLastname());
+            userDto.setUserLastName(userEntity.getLastname());
             userDto.setPassword(userEntity.getPassword());
 
             if (userEntity.getContacts() != null)
@@ -94,10 +94,10 @@ public class LoginController
             positionDto.setId(userEntity.getPosition().getId());
             userDto.setPosition(positionDto);
 
-            userDto.setSecurityAnswer1(userEntity.getSecurityAnswer1());
-            userDto.setSecurityAnswer2(userEntity.getSecurityAnswer2());
-            userDto.setSecurityQuestion1(userEntity.getSecurityQuestion1());
-            userDto.setSecurityQuestion2(userEntity.getSecurityQuestion2());
+            userDto.setUserSecurityAnswer1(userEntity.getSecurityAnswer1());
+            userDto.setUserSecurityAnswer2(userEntity.getSecurityAnswer2());
+            userDto.setUserSecurityQuestion1(userEntity.getSecurityQuestion1());
+            userDto.setUserSecurityQuestion2(userEntity.getSecurityQuestion2());
             userDto.setUsername(userEntity.getUsername());
         }
         return userDto;

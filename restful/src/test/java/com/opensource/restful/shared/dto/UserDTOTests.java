@@ -54,29 +54,29 @@ public class UserDTOTests extends TestCase
         user.setUserId(id);
         user.setUsername(username);
         user.setPassword(password);
-        user.setActive(active);
-        user.setEmail(email);
-        user.setSecurityQuestion1(securityQuestion1);
-        user.setSecurityAnswer1(securityAnswer1);
-        user.setSecurityQuestion2(securityQuestion2);
-        user.setSecurityAnswer2(securityAnswer2);
+        user.setUserActive(active);
+        user.setUserEmail(email);
+        user.setUserSecurityQuestion1(securityQuestion1);
+        user.setUserSecurityAnswer1(securityAnswer1);
+        user.setUserSecurityQuestion2(securityQuestion2);
+        user.setUserSecurityAnswer2(securityAnswer2);
         System.out.println("testUserCreate: user=" + user.toString());
         // ***************************************************************
         assertNotNull(user.getUserId());
         assertNotNull(user.getUsername());
         assertNotNull(user.getPassword());
-        assertNotNull(user.isActive());
+        assertNotNull(user.isUserActive());
         assertNotNull(user.toString());
         // ***************************************************************
         assertEquals(id, user.getUserId());
         assertEquals(username, user.getUsername());
         assertEquals(password, user.getPassword());
-        assertEquals(active, user.isActive());
-        assertEquals(email, user.getEmail());
-        assertEquals(securityQuestion1, user.getSecurityQuestion1());
-        assertEquals(securityAnswer1, user.getSecurityAnswer1());
-        assertEquals(securityQuestion2, user.getSecurityQuestion2());
-        assertEquals(securityAnswer2, user.getSecurityAnswer2());
+        assertEquals(active, user.isUserActive());
+        assertEquals(email, user.getUserEmail());
+        assertEquals(securityQuestion1, user.getUserSecurityQuestion1());
+        assertEquals(securityAnswer1, user.getUserSecurityAnswer1());
+        assertEquals(securityQuestion2, user.getUserSecurityQuestion2());
+        assertEquals(securityAnswer2, user.getUserSecurityAnswer2());
         // =================================================================================
         System.out.println("testUserCreate: FINISH: CREATE");
     }

@@ -588,6 +588,7 @@ public class LoginDialog extends Canvas
         String validPhoneBookId = Cookies.getCookie(Constants.COOKIES_VALID_PHONEBOOK_ID);
         final String userType = Cookies.getCookie(Constants.COOKIES_USER_TYPE);
 
+        phonebookId = null;
         if (phonebookId != null)
         {
             if (callback != null)

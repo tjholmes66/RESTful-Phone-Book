@@ -56,7 +56,7 @@ public class HeaderWidget extends HLayout
 
         Label nameLabel = new Label("nameLabel");
         nameLabel.setStyleName("headerLabel");
-        nameLabel.setContents(userDto.getLastName() + ", " + userDto.getFirstName());
+        nameLabel.setContents(userDto.getUserLastName() + ", " + userDto.getUserFirstName());
         nameLabel.setWidth(HEADER_LABEL_SIZE);
 
         line1.addMember(nameTitle);
@@ -112,7 +112,7 @@ public class HeaderWidget extends HLayout
 
         Label emailLabel = new Label("email");
         emailLabel.setStyleName("headerLabel");
-        emailLabel.setContents(userDto.getEmail());
+        emailLabel.setContents(userDto.getUserEmail());
         emailLabel.setWidth(HEADER_LABEL_SIZE);
 
         line1.addMember(emailTitle);
@@ -124,7 +124,7 @@ public class HeaderWidget extends HLayout
         dobTitle.setContents("Date of Birth:");
         dobTitle.setWidth(104);
 
-        String dob = CalendarUtil.getStringFromDate(userDto.getBirthdate());
+        String dob = CalendarUtil.getStringFromDate(userDto.getUserBirthDate());
         Label dobLabel = new Label("username");
         dobLabel.setStyleName("headerLabel");
         dobLabel.setContents(dob);
@@ -166,7 +166,7 @@ public class HeaderWidget extends HLayout
         ageTitle.setContents("Age:");
         ageTitle.setAutoWidth();
 
-        int age = CalendarUtil.getAge(userDto.getBirthdate());
+        int age = CalendarUtil.getAge(userDto.getUserBirthDate());
         String status = "";
         if (age >= 18)
         {

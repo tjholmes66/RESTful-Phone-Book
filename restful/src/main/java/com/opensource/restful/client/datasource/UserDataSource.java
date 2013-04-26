@@ -1,20 +1,25 @@
 package com.opensource.restful.client.datasource;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.http.client.URL;
 import com.opensource.restful.shared.Constants;
 import com.smartgwt.client.data.DSRequest;
+import com.smartgwt.client.data.DSResponse;
+import com.smartgwt.client.data.OperationBinding;
+import com.smartgwt.client.data.RestDataSource;
 import com.smartgwt.client.data.fields.DataSourceBooleanField;
 import com.smartgwt.client.data.fields.DataSourceDateField;
 import com.smartgwt.client.data.fields.DataSourceIntegerField;
 import com.smartgwt.client.data.fields.DataSourceTextField;
 import com.smartgwt.client.types.DSDataFormat;
 import com.smartgwt.client.types.DSOperationType;
+import com.smartgwt.client.types.DSProtocol;
 import com.smartgwt.client.util.JSOHelper;
+import com.smartgwt.client.util.JSON;
 
-public class UserDataSource extends AbstractRestDataSource
+public class UserDataSource extends RestDataSource
 {
     private static UserDataSource instance = null;
 
@@ -30,7 +35,48 @@ public class UserDataSource extends AbstractRestDataSource
 
     private UserDataSource(String id)
     {
-        super(id);
+        setID(id);
+        setClientOnly(false);
+
+        // set up FETCH to use GET requests
+        OperationBinding fetch = new OperationBinding();
+        fetch.setOperationType(DSOperationType.FETCH);
+        fetch.setDataProtocol(DSProtocol.GETPARAMS);
+        DSRequest fetchProps = new DSRequest();
+        fetchProps.setHttpMethod("GET");
+        fetch.setRequestProperties(fetchProps);
+
+        // set up ADD to use POST requests
+        OperationBinding add = new OperationBinding();
+        add.setOperationType(DSOperationType.ADD);
+        add.setDataProtocol(DSProtocol.POSTMESSAGE);
+        // ===========================================
+        DSRequest addProps = new DSRequest();
+        addProps.setHttpMethod("POST");
+        addProps.setContentType("application/json");
+        add.setRequestProperties(addProps);
+
+        // set up UPDATE to use PUT
+        OperationBinding update = new OperationBinding();
+        update.setOperationType(DSOperationType.UPDATE);
+        update.setDataProtocol(DSProtocol.POSTMESSAGE);
+        // ===========================================
+        DSRequest updateProps = new DSRequest();
+        updateProps.setHttpMethod("PUT");
+        updateProps.setContentType("application/json");
+        update.setRequestProperties(updateProps);
+
+        // set up REMOVE to use DELETE
+        OperationBinding remove = new OperationBinding();
+        remove.setOperationType(DSOperationType.REMOVE);
+        DSRequest removeProps = new DSRequest();
+        removeProps.setHttpMethod("DELETE");
+        remove.setRequestProperties(removeProps);
+
+        // apply all the operational bindings
+        setOperationBindings(fetch, add, update, remove);
+
+        init();
     }
 
     private DataSourceIntegerField userIdField;
@@ -91,6 +137,11 @@ public class UserDataSource extends AbstractRestDataSource
         setFields(userIdField, userActiveField, usernameField, passwordField, firstnameField, lastnameField,
             emailField, birthdateField, securityQuestion1Field, securityAnswer1Field, securityQuestion2Field,
             securityAnswer2Field, positionIdField);
+
+        setFetchDataURL(getServiceRoot() + "/userId/{id}");
+        setAddDataURL(getServiceRoot() + "/add");
+        setUpdateDataURL(getServiceRoot() + "/update");
+        setRemoveDataURL(getServiceRoot() + "/remove");
     }
 
     protected String getServiceRoot()
@@ -104,45 +155,43 @@ public class UserDataSource extends AbstractRestDataSource
     }
 
     @Override
-    protected Object transformRequest(DSRequest request)
+    protected Object transformRequest(DSRequest dsRequest)
     {
-        System.out.println("UserDataSource: transformRequest: ");
-        JavaScriptObject jsObjOld = (JavaScriptObject) request.getData();
-        String[] test1 = JSOHelper.getProperties(jsObjOld);
+        System.out.println("UserDataSource: transformRequest: START");
+        dsRequest.setContentType("application/json");
+        JavaScriptObject jso = dsRequest.getData();
+        String jsoText = JSON.encode(jso);
+        System.out.println("UserDataSource: transformRequest: START: jsoText=" + jsoText);
 
-        Map valueMap = (Map) JSOHelper.convertToMap(jsObjOld);
-        valueMap.remove("__ref");
+        // get the user position id which comes from the UI
+        // the name of this field from the UI 'userPositionId'
+        String userPositionId = JSOHelper.getAttribute(jso, Constants.USER_POSITION_ID);
 
-        JavaScriptObject jsObjNew = JSOHelper.convertMapToJavascriptObject(valueMap);
-        request.setAttribute("data", jsObjNew);
-        request.setData(jsObjNew);
+        // create a small JavaScriptObject to be used for the position
+        // the JSON string would look like {"id":x} x = userPositionId
+        Map mapPositionId = new HashMap();
+        mapPositionId.put("id", userPositionId);
+        JavaScriptObject jsoPositionId = JSOHelper.convertMapToJavascriptObject(mapPositionId);
 
-        String[] test2 = JSOHelper.getProperties(jsObjNew);
+        // This creates the new JSON attribute:
+        // ... , "position":{"id":x}
+        JSOHelper.setAttribute(jso, "position", jsoPositionId);
 
-        super.transformRequest(request);
+        // remove the JSON Attribute: ... , "userPositionId":x
+        JSOHelper.deleteAttribute(jso, Constants.USER_POSITION_ID);
 
-        // now post process the request for our own means
-        postProcessTransform(request);
-
-        return request.getData();
+        String s1 = JSON.encode(jso);
+        System.out.println("UserDataSource: transformRequest: FINISH: s1=" + s1);
+        return s1;
+        // return super.transformRequest(dsRequest);
     }
 
-    /*
-     * Implementers can override this method to create a 
-     * different override.
-     */
-    @SuppressWarnings("rawtypes")
-    protected void postProcessTransform(DSRequest request)
+    @Override
+    protected void transformResponse(DSResponse response, DSRequest request, Object data)
     {
-        StringBuilder url = new StringBuilder(getServiceRoot());
-
-        Map dataMap = request.getAttributeAsMap("data");
-        if (request.getOperationType() == DSOperationType.FETCH && dataMap.size() > 0)
-        {
-            url.append("user/" + dataMap.get(Constants.USER_USERNAME));
-            url.append("/pwd/" + dataMap.get(Constants.USER_PASSWORD));
-        }
-
-        request.setActionURL(URL.encode(url.toString()));
+        System.out.println("UserDataSource: transformResponse: START");
+        super.transformResponse(response, request, data);
+        System.out.println("UserDataSource: transformResponse: FINISH");
     }
+
 }

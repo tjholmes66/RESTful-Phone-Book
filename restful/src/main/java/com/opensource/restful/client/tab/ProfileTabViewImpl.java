@@ -3,6 +3,7 @@ package com.opensource.restful.client.tab;
 import com.google.gwt.event.shared.EventBus;
 import com.opensource.restful.client.datasource.UserDataSource;
 import com.opensource.restful.client.handler.ProfileSaveButtonClickHandler;
+import com.opensource.restful.client.widget.DateItemWidget;
 import com.opensource.restful.shared.Constants;
 import com.opensource.restful.shared.dto.UserDTO;
 import com.smartgwt.client.data.Record;
@@ -12,7 +13,7 @@ import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.form.DynamicForm;
-import com.smartgwt.client.widgets.form.fields.DateItem;
+import com.smartgwt.client.widgets.form.fields.CheckboxItem;
 import com.smartgwt.client.widgets.form.fields.PasswordItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
@@ -33,6 +34,7 @@ public class ProfileTabViewImpl implements ProfileTabView
 
     private TextItem idField;
     private TextItem usernameField = new TextItem(Constants.USER_USERNAME);
+    private CheckboxItem activeField = new CheckboxItem(Constants.USER_ACTIVE);
     private TextItem firstnameField = new TextItem(Constants.USER_FIRST_NAME);
     private TextItem lastnameField = new TextItem(Constants.USER_LAST_NAME);
     private TextItem emailField = new TextItem(Constants.USER_EMAIL);
@@ -41,7 +43,8 @@ public class ProfileTabViewImpl implements ProfileTabView
     private TextItem securityQuestion2Field = new TextItem(Constants.USER_SECURITY_QUESTION_2);
     private TextItem securityAnswer2Field = new TextItem(Constants.USER_SECURITY_ANSWER_2);
     private TextItem positionField = new TextItem(Constants.USER_POSITION_ID);
-    private DateItem birthdateField = new DateItem(Constants.USER_BIRTHDATE);
+    private DateItemWidget birthdateField =
+        new DateItemWidget(Constants.USER_BIRTHDATE, Constants.TITLE_USER_BIRTHDATE);
 
     private final DynamicForm passwordForm = new DynamicForm();
 
@@ -107,53 +110,61 @@ public class ProfileTabViewImpl implements ProfileTabView
         usernameField.setDisabled(true);
         usernameField.setDefaultValue(_userDto.getUsername());
 
+        activeField.setTitle(Constants.TITLE_USER_ACTIVE);
+        activeField.setIconVAlign(VerticalAlignment.CENTER);
+        activeField.setRequired(true);
+        activeField.setDisabled(true);
+        activeField.setDefaultValue(_userDto.isUserActive());
+        activeField.setVisible(false);
+
         firstnameField.setTitle(Constants.TITLE_USER_FIRST_NAME);
         firstnameField.setIconVAlign(VerticalAlignment.CENTER);
         firstnameField.setRequired(true);
-        firstnameField.setDefaultValue(_userDto.getFirstName());
+        firstnameField.setDefaultValue(_userDto.getUserFirstName());
 
         lastnameField.setTitle(Constants.TITLE_USER_LAST_NAME);
         lastnameField.setIconVAlign(VerticalAlignment.CENTER);
         lastnameField.setRequired(true);
-        lastnameField.setDefaultValue(_userDto.getLastName());
+        lastnameField.setDefaultValue(_userDto.getUserLastName());
 
         emailField.setTitle(Constants.TITLE_USER_EMAIL);
         emailField.setIconVAlign(VerticalAlignment.CENTER);
         emailField.setRequired(true);
-        emailField.setDefaultValue(_userDto.getEmail());
+        emailField.setDefaultValue(_userDto.getUserEmail());
 
         securityQuestion1Field.setTitle(Constants.TITLE_USER_SECURITY_QUESTION_1);
         securityQuestion1Field.setIconVAlign(VerticalAlignment.CENTER);
         securityQuestion1Field.setRequired(true);
-        securityQuestion1Field.setDefaultValue(_userDto.getSecurityQuestion1());
+        securityQuestion1Field.setDefaultValue(_userDto.getUserSecurityQuestion1());
 
         securityAnswer1Field.setTitle(Constants.TITLE_USER_SECURITY_ANSWER_1);
         securityAnswer1Field.setIconVAlign(VerticalAlignment.CENTER);
         securityAnswer1Field.setRequired(true);
-        securityAnswer1Field.setDefaultValue(_userDto.getSecurityAnswer1());
+        securityAnswer1Field.setDefaultValue(_userDto.getUserSecurityAnswer1());
 
         securityQuestion2Field.setTitle(Constants.TITLE_USER_SECURITY_QUESTION_2);
         securityQuestion2Field.setIconVAlign(VerticalAlignment.CENTER);
         securityQuestion2Field.setRequired(true);
-        securityQuestion2Field.setDefaultValue(_userDto.getSecurityQuestion2());
+        securityQuestion2Field.setDefaultValue(_userDto.getUserSecurityQuestion2());
 
         securityAnswer2Field.setTitle(Constants.TITLE_USER_SECURITY_ANSWER_2);
         securityAnswer2Field.setIconVAlign(VerticalAlignment.CENTER);
         securityAnswer2Field.setRequired(true);
-        securityAnswer2Field.setDefaultValue(_userDto.getSecurityAnswer2());
+        securityAnswer2Field.setDefaultValue(_userDto.getUserSecurityAnswer2());
 
         positionField.setTitle(Constants.TITLE_USER_POSITION_ID);
-        positionField.setDefaultValue(2);
+        positionField.setDefaultValue(Long.toString(_userDto.getPosition().getId()));
         positionField.setVisible(false);
 
         birthdateField.setTitle(Constants.TITLE_USER_BIRTHDATE);
         birthdateField.setIconVAlign(VerticalAlignment.CENTER);
-        birthdateField.setDefaultValue(_userDto.getBirthdate());
+        birthdateField.setDefaultValue(_userDto.getUserBirthDate());
         birthdateField.setVisible(true);
         birthdateField.setRequired(true);
 
-        profileForm.setFields(idField, usernameField, firstnameField, lastnameField, emailField, positionField,
-            securityQuestion1Field, securityAnswer1Field, securityQuestion2Field, securityAnswer2Field, birthdateField);
+        profileForm.setFields(idField, usernameField, activeField, firstnameField, lastnameField, emailField,
+            positionField, securityQuestion1Field, securityAnswer1Field, securityQuestion2Field, securityAnswer2Field,
+            birthdateField);
 
         return profileForm;
     }
@@ -178,7 +189,6 @@ public class ProfileTabViewImpl implements ProfileTabView
                     Record record = new ListGridRecord();
                     record.setAttribute(Constants.USER_ID, Long.parseLong(idField.getValueAsString()));
                     record.setAttribute(Constants.USER_ACTIVE, true);
-                    record.setAttribute(Constants.USER_POSITION_ID, 2);
                     record.setAttribute(Constants.USER_NEW_PASSWORD, newPasswordField.getValueAsString());
                     userDS.updateData(record);
                 }
