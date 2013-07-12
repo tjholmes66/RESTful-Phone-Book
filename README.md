@@ -23,6 +23,6 @@ Spring 3.2 for all modules, it is said that Spring 3.2 already contains support 
 
 Hibernate/JSP 4.1.4.Final
 
-SmartGWT 2.4
+SmartGWT 2.4, recently updated to 4.0, which was release on July 9th, 2013
 
 Jackson2 - 2.1.4, which was the latest/greatest at the time of this update.
