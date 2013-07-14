@@ -4,18 +4,19 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.opensource.restful.domain.ContactEntity;
+import com.opensource.restful.shared.Mapping;
 import com.opensource.restful.shared.dto.ContactDTO;
 import com.opensource.restful.shared.service.IContactService;
 
 @Controller
-@RequestMapping("/contact")
+@RequestMapping("/contacts")
 public class ContactController
 {
     @Autowired
@@ -50,56 +51,65 @@ public class ContactController
         return contactDTOList;
     }
 
-    @RequestMapping(value = "/contactId/{contactId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/contactId/{contactId}", method = RequestMethod.GET, headers = "Accept=application/json")
     public @ResponseBody
     ContactDTO getContactById(@PathVariable("contactId") long contactId)
     {
         ContactEntity contactEntity = service.getContactById(contactId);
-
-        ContactDTO contactDto = new ContactDTO();
-        contactDto.setAddress1(contactEntity.getAddress1());
-        contactDto.setAddress2(contactEntity.getAddress2());
-        contactDto.setBirthDate(contactEntity.getBirthDate());
-        contactDto.setCity(contactEntity.getCity());
-        contactDto.setEditedBy(contactEntity.getEditedBy());
-        contactDto.setEditedDate(contactEntity.getEditedDate());
-        contactDto.setEnteredBy(contactEntity.getEnteredBy());
-        contactDto.setEnteredDate(contactEntity.getEnteredDate());
-        contactDto.setFirstName(contactEntity.getFirstName());
-        contactDto.setContactId(contactEntity.getContactId());
-        contactDto.setLastName(contactEntity.getLastName());
-        contactDto.setMiddleName(contactEntity.getMiddleName());
-        contactDto.setPrefix(contactEntity.getPrefix());
-        contactDto.setState(contactEntity.getState());
-        contactDto.setSuffix(contactEntity.getSuffix());
-        contactDto.setUserId(contactEntity.getUser().getUserId());
-        contactDto.setZip(contactEntity.getZip());
-
+        ContactDTO contactDto = Mapping.mappingContact(contactEntity);
+        System.out.println("ContactController: retrieveContact: contactDto=" + contactDto);
         return contactDto;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.PUT)
+    @RequestMapping(value = "/userId/{userId}", method = RequestMethod.GET, headers = "Accept=application/json")
     public @ResponseBody
-    ContactDTO updateContact(@ModelAttribute ContactDTO person)
+    ArrayList<ContactDTO> getContactsByUserId(@PathVariable("userId") long userId)
     {
-        // The person object will only have the fields that are
-        // being updated populated + the primary key.
-        // The method should return a full object with the same primary key.
-        return null;
+        ArrayList<ContactEntity> contactEntityList = (ArrayList) service.getContactsByUserId(userId);
+
+        ArrayList<ContactDTO> contactDTOList = new ArrayList<ContactDTO>();
+        for (ContactEntity contactEntity : contactEntityList)
+        {
+            ContactDTO contactDto = Mapping.mappingContact(contactEntity);
+            System.out.println("ContactController: getContactsByUserId: contactDto=" + contactDto);
+            contactDTOList.add(contactDto);
+        }
+
+        return contactDTOList;
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json",
+        headers = "content-type=application/json")
     public @ResponseBody
-    ContactDTO createContact()
+    ContactDTO createContact(@RequestBody ContactDTO contact)
     {
-        // This should create a new person with a new primary key
-        return null;
+        System.out.println("ContactController: createContact: contact=" + contact);
+        ContactEntity contactEntity = service.add(contact);
+        ContactDTO contactDto = Mapping.mappingContact(contactEntity);
+        System.out.println("ContactController: createContact: contactDto=" + contactDto);
+        return contactDto;
     }
 
-    @RequestMapping(value = "/id/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/update", method = RequestMethod.PUT, produces = "application/json",
+        headers = "content-type=application/json")
     public @ResponseBody
-    ContactDTO deleteContact(@PathVariable("id") Integer contactId)
+    ContactDTO updateContact(@RequestBody ContactDTO contact)
     {
-        return null;
+        System.out.println("ContactController: START: updateContact: contact=" + contact);
+        ContactEntity contactEntity = service.update(contact);
+        ContactDTO contactDto = Mapping.mappingContact(contactEntity);
+        System.out.println("ContactController: FINISH: updateContact: contactDto=" + contactDto);
+        return contactDto;
     }
+
+    @RequestMapping(value = "/delete/{contactId}", method = RequestMethod.DELETE, headers = "Accept=application/json")
+    public @ResponseBody
+    ContactDTO deleteContact(@PathVariable("contactId") long contactId)
+    {
+        System.out.println("ContactController: START: deleteContact: contactId=" + contactId);
+        service.remove(contactId);
+        System.out.println("ContactController: FINISH: deleteContact:");
+        return new ContactDTO(contactId);
+    }
+
 }

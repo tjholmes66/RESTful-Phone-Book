@@ -37,12 +37,40 @@ public class LoginServiceImplTests extends TestCase
     }
 
     @Test
-    public void testFetchById() throws Exception
+    public void testFetchByLogin() throws Exception
     {
         String username = "demo";
         String password = "demo";
         // ==================================================
         UserEntity user = service.login(username, password);
+        assertNotNull(user);
+        // ==================================================
+        if (user != null)
+        {
+            System.out.println("users=" + user.toString());
+        }
+    }
+
+    @Test
+    public void testFetchByEmail() throws Exception
+    {
+        String email = "tom@tomholmes.net";
+        // ==================================================
+        UserEntity user = service.loginByEmail(email);
+        assertNotNull(user);
+        // ==================================================
+        if (user != null)
+        {
+            System.out.println("users=" + user.toString());
+        }
+    }
+
+    @Test
+    public void testFetchByUsername() throws Exception
+    {
+        String username = "demo";
+        // ==================================================
+        UserEntity user = service.loginByUsername(username);
         assertNotNull(user);
         // ==================================================
         if (user != null)

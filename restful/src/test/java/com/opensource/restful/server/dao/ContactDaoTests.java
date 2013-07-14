@@ -17,7 +17,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.opensource.restful.domain.ContactEmailEntity;
 import com.opensource.restful.domain.ContactEntity;
+import com.opensource.restful.domain.ContactPhoneEntity;
 import com.opensource.restful.domain.EmailTypeEntity;
+import com.opensource.restful.domain.PhoneTypeEntity;
 import com.opensource.restful.domain.UserEntity;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,23 +35,23 @@ public class ContactDaoTests extends TestCase
     @Autowired
     private ContactDao contactDao;
 
-    private long id = 2;
-    private boolean active = true;
-    private String address1 = "123 main street";
-    private String address2 = "Apt. 456";
-    private boolean admin = false;
-    private String dob = "11/03/1966";
-    private Date birthDate = null;
-    private String city = "Randolph";
-    private long companyId = 0;
-    private String firstName = "first_name";
-    private String lastName = "last_name";
-    private String password = "password";
-    private String username = "username";
-    private String prefix = "Mr.";
-    private String suffix = "Jr.";
-    private String state = "MA";
-    private String zip = "12345-1234";
+    private long _id = 2;
+    private boolean _active = true;
+    private String _address1 = "123 main street";
+    private String _address2 = "Apt. 456";
+    private boolean _admin = false;
+    private String _dob = "11/03/1966";
+    private Date _birthDate = null;
+    private String _city = "Randolph";
+    private long _companyId = 0;
+    private String _firstName = "first_name";
+    private String _lastName = "last_name";
+    private String _password = "password";
+    private String _username = "username";
+    private String _prefix = "Mr.";
+    private String _suffix = "Jr.";
+    private String _state = "MA";
+    private String _zip = "12345-1234";
 
     protected void setUp() throws Exception
     {
@@ -104,7 +106,47 @@ public class ContactDaoTests extends TestCase
         return emails;
     }
 
-    @Test
+    private HashSet<ContactPhoneEntity> createPhones(ContactEntity contactEntity)
+    {
+        HashSet<ContactPhoneEntity> phones = new HashSet<ContactPhoneEntity>();
+        logger.debug("createPhones: START");
+        ContactPhoneEntity contactPhone = null;
+        // ============================================================
+        PhoneTypeEntity phoneType1 = new PhoneTypeEntity();
+        phoneType1.setId(1);
+        contactPhone = new ContactPhoneEntity();
+        contactPhone.setContact(contactEntity);
+        contactPhone.setEnteredDate(new Date());
+        contactPhone.setPhone("111-111-1111");
+        contactPhone.setPhoneId(0);
+        contactPhone.setPhoneType(phoneType1);
+        phones.add(contactPhone);
+        // ============================================================
+        PhoneTypeEntity phoneType2 = new PhoneTypeEntity();
+        phoneType2.setId(2);
+        contactPhone = new ContactPhoneEntity();
+        contactPhone.setContact(contactEntity);
+        contactPhone.setEnteredDate(new Date());
+        contactPhone.setPhone("222-222-2222");
+        contactPhone.setPhoneId(0);
+        contactPhone.setPhoneType(phoneType2);
+        phones.add(contactPhone);
+        // ============================================================
+        PhoneTypeEntity phoneType3 = new PhoneTypeEntity();
+        phoneType3.setId(3);
+        contactPhone = new ContactPhoneEntity();
+        contactPhone.setContact(contactEntity);
+        contactPhone.setEnteredDate(new Date());
+        contactPhone.setPhone("333-333-3333");
+        contactPhone.setPhoneId(0);
+        contactPhone.setPhoneType(phoneType3);
+        phones.add(contactPhone);
+        // ============================================================
+        logger.debug("createEmails: FINISH");
+        return phones;
+    }
+
+    // @Test
     public void testContactFetchByUser() throws Exception
     {
         System.out.println("testContactFetchByUser: START");
@@ -121,53 +163,43 @@ public class ContactDaoTests extends TestCase
         System.out.println("testContactFetchByUser: FINISH");
     }
 
-    // @Test
+    @Test
     public void testContactSave() throws Exception
     {
         System.out.println("testContactSave: START");
         // =================================================================================
-// long id = 1;
-// boolean active = true;
-// String address1 = "123 main street";
-// String address2 ="Apt. 456";
-// boolean admin = false;
-// String dob = "11/03/1966";
-// Date birthDate = sdf.parse(dob);
-// String city ="Randolph";
-// long companyId = 0;
-// String firstName = "first_name";
-// String lastName = "last_name";
-// String password = "password";
-// String username = "username";
-// String prefix = "Mr.";
-// String suffix = "Jr.";
-// String state = "MA";
-// String zip ="12345-1234";
-        // =================================================================================
         ContactEntity contact = new ContactEntity();
-        // contact.setId(id);
-        contact.setAddress1(address1);
-        contact.setAddress2(address2);
-        contact.setBirthDate(birthDate);
-        contact.setCity(city);
-        contact.setCompanyId(companyId);
-        contact.setFirstName(firstName);
-        contact.setLastName(lastName);
-        contact.setPrefix(prefix);
-        contact.setState(state);
-        contact.setSuffix(suffix);
-        contact.setZip(zip);
+        contact.setContactId(0);
+        contact.setAddress1(_address1);
+        contact.setAddress2(_address2);
+        contact.setBirthDate(_birthDate);
+        contact.setCity(_city);
+        contact.setCompanyId(_companyId);
+        contact.setFirstName(_firstName);
+        contact.setLastName(_lastName);
+        contact.setPrefix(_prefix);
+        contact.setState(_state);
+        contact.setSuffix(_suffix);
+        contact.setZip(_zip);
+        // ***************************************************************
+        long userId = 1;
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUserId(userId);
+        contact.setUser(userEntity);
+        // ***************************************************************
         contact.setEmails(createEmails(contact));
+        contact.setPhones(createPhones(contact));
+        // ***************************************************************
         System.out.println("testContactSave: " + contact.toString());
         // ***************************************************************
         System.out.println("testContactSave: START: CREATE");
-        contact = contactDao.saveContactEntity(contact);
+        contact = contactDao.createContactEntity(contact);
         assertNotNull(contact);
         System.out.println("testContactSave: FINISH: CREATE");
         // =================================================================================
     }
 
-    @Test
+    // @Test
     public void testContactRetrieve()
     {
         System.out.println("testContactRetrieve: START");
@@ -207,11 +239,19 @@ public class ContactDaoTests extends TestCase
     {
         System.out.println("testContactRetrieveById: START");
         // =================================================================================
-        long id = 2;
+        long contactId = 18;
+        String address1 = "123 main street";
+        String address2 = "Apt. 456";
+        String city = "Randolph";
+        long companyId = 0;
+        String prefix = "Mr.";
+        String suffix = "Jr.";
+        String state = "MA";
+        String zip = "12345-1234";
         // =================================================================================
         // ***************************************************************
         System.out.println("testContactRetrieveById: START: CREATE");
-        ContactEntity contact = contactDao.getContactEntity(id);
+        ContactEntity contact = contactDao.getContactEntity(contactId);
         assertNotNull(contact.getContactId());
         // ************************************************************
         assertEquals(contact.getAddress1(), address1);
@@ -219,7 +259,7 @@ public class ContactDaoTests extends TestCase
         assertEquals(contact.getCity(), city);
         assertEquals(contact.getCompanyId(), companyId);
         // assertEquals(contact.getFirstName(),firstName);
-        assertEquals(contact.getContactId(), id);
+        assertEquals(contact.getContactId(), contactId);
         // assertEquals(contact.getLastName(),lastName);
         // assertEquals(contact.getMiddleName(),middleName);
         // assertEquals(contact.getPassword(),password);
@@ -228,8 +268,8 @@ public class ContactDaoTests extends TestCase
         assertEquals(contact.getSuffix(), suffix);
         // assertEquals(contact.getUsername(),username);
         assertEquals(contact.getZip(), zip);
-        assertEquals(4, contact.getEmails().size());
-        assertEquals(0, contact.getPhones().size());
+        assertEquals(3, contact.getEmails().size());
+        assertEquals(3, contact.getPhones().size());
         assertEquals(0, contact.getLinks().size());
         // ************************************************************
         System.out.println("testContactRetrieveById: contact=" + contact.toString());
@@ -237,18 +277,20 @@ public class ContactDaoTests extends TestCase
         // =================================================================================
     }
 
-    // @Test
-    public void XtestContactDelete()
+    @Test
+    public void testContactDelete()
     {
         System.out.println("testContactDelete: START");
-        long id = 4;
+        long contactId = 18;
         // =================================================================================
-        ContactEntity contact = contactDao.getContactEntity(id);
-        assertNotNull(contact);
-        System.out.println("testContactDelete: " + contact.toString());
-        contactDao.deleteContactEntity(contact);
+        // ContactEntity contactEntity = contactDao.getContactEntity(contactId);
+        // assertNotNull(contactEntity);
+        // System.out.println("testContactDelete: " + contactEntity.toString());
+        // =================================================================================
+        contactDao.deleteContactEntity(contactId);
         System.out.println("testContactDelete: contact deleted");
-        contact = contactDao.getContactEntity(id);
+        // =================================================================================
+        ContactEntity contact = contactDao.getContactEntity(contactId);
         assertEquals(contact, null);
         // ***************************************************************
         System.out.println("testContactDelete: FINISH");
@@ -310,7 +352,7 @@ public class ContactDaoTests extends TestCase
     public void testContactUpdate()
     {
         System.out.println("testContactUpdate: START");
-        id = 4;
+        long contactId = 4;
         // =================================================================================
         String updateCity = "upd_Randolph4";
         String updateFirstName = "updated_fn4";
@@ -318,7 +360,7 @@ public class ContactDaoTests extends TestCase
         String updatePassword = "updated_pwd4";
         String updateUsername = "updated_username4";
         // =================================================================================
-        ContactEntity contact = contactDao.getContactEntity(id);
+        ContactEntity contact = contactDao.getContactEntity(contactId);
 // assertEquals(contact.getAddress1(),address1);
 // assertEquals(contact.getAddress2(),address2);
 // assertEquals(contact.getCity(),city);
@@ -352,7 +394,7 @@ public class ContactDaoTests extends TestCase
         contact.getEmails().remove(contactEmail);
         // ***************************************************************
         System.out.println("testContactUpdate: START: CREATE");
-        contact = contactDao.saveContactEntity(contact);
+        contact = contactDao.updateContactEntity(contact);
         assertNotNull(contact);
         assertEquals(contact.getCity(), updateCity);
         assertEquals(contact.getFirstName(), updateFirstName);

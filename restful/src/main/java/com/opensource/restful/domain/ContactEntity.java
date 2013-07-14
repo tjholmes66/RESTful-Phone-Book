@@ -40,8 +40,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.Cascade;
-
 /**
  * The persistent class for the Positions database table.
  * 
@@ -129,22 +127,16 @@ public class ContactEntity implements Serializable
     @Temporal(TemporalType.TIMESTAMP)
     private Date birthDate;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @Cascade(
-    { org.hibernate.annotations.CascadeType.ALL })
-    @JoinColumn(name = "contact_id")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "contact", cascade =
+    { javax.persistence.CascadeType.ALL }, orphanRemoval = true)
     private Set<ContactEmailEntity> emails;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @Cascade(
-    { org.hibernate.annotations.CascadeType.ALL })
-    @JoinColumn(name = "contact_id")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "contact", cascade =
+    { javax.persistence.CascadeType.ALL }, orphanRemoval = true)
     private Set<ContactPhoneEntity> phones;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @Cascade(
-    { org.hibernate.annotations.CascadeType.ALL })
-    @JoinColumn(name = "contact_id")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "contact", cascade =
+    { javax.persistence.CascadeType.ALL }, orphanRemoval = true)
     private Set<ContactLinkEntity> links;
 
     public long getContactId()

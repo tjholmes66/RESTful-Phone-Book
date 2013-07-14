@@ -4,7 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.http.client.URL;
 import com.opensource.restful.shared.Constants;
+import com.opensource.restful.shared.JSOMapping;
+import com.opensource.restful.shared.dto.UserDTO;
 import com.smartgwt.client.data.DSRequest;
 import com.smartgwt.client.data.DSResponse;
 import com.smartgwt.client.data.OperationBinding;
@@ -29,7 +32,6 @@ public class UserDataSource extends RestDataSource
         {
             instance = new UserDataSource("restUserDS");
         }
-
         return instance;
     }
 
@@ -53,7 +55,7 @@ public class UserDataSource extends RestDataSource
         // ===========================================
         DSRequest addProps = new DSRequest();
         addProps.setHttpMethod("POST");
-        addProps.setContentType("application/json");
+        // addProps.setContentType("application/json");
         add.setRequestProperties(addProps);
 
         // set up UPDATE to use PUT
@@ -63,7 +65,7 @@ public class UserDataSource extends RestDataSource
         // ===========================================
         DSRequest updateProps = new DSRequest();
         updateProps.setHttpMethod("PUT");
-        updateProps.setContentType("application/json");
+        // updateProps.setContentType("application/json");
         update.setRequestProperties(updateProps);
 
         // set up REMOVE to use DELETE
@@ -93,10 +95,6 @@ public class UserDataSource extends RestDataSource
     private DataSourceDateField birthdateField;
 
     private DataSourceIntegerField positionIdField;
-
-    // private DataSourceBooleanField positionActiveField;
-    // private DataSourceTextField positionCodeField;
-    // private DataSourceTextField positionDescriptionField;
 
     protected void init()
     {
@@ -137,16 +135,11 @@ public class UserDataSource extends RestDataSource
         setFields(userIdField, userActiveField, usernameField, passwordField, firstnameField, lastnameField,
             emailField, birthdateField, securityQuestion1Field, securityAnswer1Field, securityQuestion2Field,
             securityAnswer2Field, positionIdField);
-
-        setFetchDataURL(getServiceRoot() + "/userId/{id}");
-        setAddDataURL(getServiceRoot() + "/add");
-        setUpdateDataURL(getServiceRoot() + "/update");
-        setRemoveDataURL(getServiceRoot() + "/remove");
     }
 
     protected String getServiceRoot()
     {
-        return "rest/users/";
+        return "rest/users";
     }
 
     protected String getPrimaryKeyProperty()
@@ -154,44 +147,120 @@ public class UserDataSource extends RestDataSource
         return "userId";
     }
 
+    /*
+     * Implementers can override this method to create a different override.
+     */
+    @SuppressWarnings("rawtypes")
+    protected void postProcessTransform(DSRequest request)
+    {
+        System.out.println("UserDataSource: postProcessTransform: START");
+
+        StringBuilder url = new StringBuilder(getServiceRoot());
+        System.out.println("UserDataSource: postProcessTransform: url=" + url);
+
+        Map dataMap = request.getAttributeAsMap("data");
+        System.out.println("UserDataSource: postProcessTransform: dataMap=" + dataMap.toString());
+        if (DSOperationType.FETCH.equals(request.getOperationType()) && dataMap.size() > 0)
+        {
+            url.append("/userId/" + dataMap.get(Constants.USER_ID));
+        }
+        else if (DSOperationType.UPDATE.equals(request.getOperationType()))
+        {
+            url.append("/update");
+        }
+        else if (DSOperationType.ADD.equals(request.getOperationType()))
+        {
+            url.append("/create");
+        }
+        else if (DSOperationType.REMOVE.equals(request.getOperationType()))
+        {
+            url.append("/remove/" + dataMap.get(Constants.USER_ID));
+        }
+
+        System.out.println("ContactDataSource: postProcessTransform: url=" + url.toString());
+        request.setActionURL(URL.encode(url.toString()));
+    }
+
     @Override
     protected Object transformRequest(DSRequest dsRequest)
     {
+        // now post process the request for our own means
+        postProcessTransform(dsRequest);
+
         System.out.println("UserDataSource: transformRequest: START");
         dsRequest.setContentType("application/json");
         JavaScriptObject jso = dsRequest.getData();
+
         String jsoText = JSON.encode(jso);
         System.out.println("UserDataSource: transformRequest: START: jsoText=" + jsoText);
 
-        // get the user position id which comes from the UI
+        // get the user position id which comes from the UI00:00:00
         // the name of this field from the UI 'userPositionId'
         String userPositionId = JSOHelper.getAttribute(jso, Constants.USER_POSITION_ID);
 
-        // create a small JavaScriptObject to be used for the position
-        // the JSON string would look like {"id":x} x = userPositionId
-        Map mapPositionId = new HashMap();
-        mapPositionId.put("id", userPositionId);
-        JavaScriptObject jsoPositionId = JSOHelper.convertMapToJavascriptObject(mapPositionId);
+        if (userPositionId != null)
+        {
+            // create a small JavaScriptObject to be used for the position
+            // the JSON string would look like {"id":x} x = userPositionId
+            Map mapPositionId = new HashMap();
+            mapPositionId.put("id", userPositionId);
+            JavaScriptObject jsoPositionId = JSOHelper.convertMapToJavascriptObject(mapPositionId);
 
-        // This creates the new JSON attribute:
-        // ... , "position":{"id":x}
-        JSOHelper.setAttribute(jso, "position", jsoPositionId);
+            // This creates the new JSON attribute:
+            // ... , "position":{"id":x}
+            JSOHelper.setAttribute(jso, "position", jsoPositionId);
 
-        // remove the JSON Attribute: ... , "userPositionId":x
-        JSOHelper.deleteAttribute(jso, Constants.USER_POSITION_ID);
+            // remove the JSON Attribute: ... , "userPositionId":x
+            JSOHelper.deleteAttribute(jso, Constants.USER_POSITION_ID);
+        }
+
+        // this code is used only when there is a password change, otherwise this will be skipped
+        String userPassword = JSOHelper.getAttribute(jso, Constants.USER_NEW_PASSWORD);
+        if (userPassword != null)
+        {
+            // This creates the new JSON attribute:
+            // ... , "position":{"id":x}
+            JSOHelper.setAttribute(jso, "password", userPassword);
+
+            // remove the JSON Attribute: ... , "userPassword":"newPassword"
+            JSOHelper.deleteAttribute(jso, Constants.USER_NEW_PASSWORD);
+        }
+
+        System.out.println("UserDataSource: transformRequest: FINISH: url=" + dsRequest.getActionURL());
 
         String s1 = JSON.encode(jso);
         System.out.println("UserDataSource: transformRequest: FINISH: s1=" + s1);
         return s1;
-        // return super.transformRequest(dsRequest);
     }
 
-    @Override
-    protected void transformResponse(DSResponse response, DSRequest request, Object data)
+    protected void transformResponse(DSResponse response, DSRequest request, Object jsonData)
     {
         System.out.println("UserDataSource: transformResponse: START");
-        super.transformResponse(response, request, data);
-        System.out.println("UserDataSource: transformResponse: FINISH");
+        JavaScriptObject jsObj = (JavaScriptObject) jsonData;
+        String jsoText1 = JSON.encode(jsObj);
+        System.out.println("UserDataSource: transformResponse: START: jsoText=" + jsoText1);
+
+        String str = JSOHelper.getAttribute(jsObj, Constants.USER_BIRTHDATE);
+
+        UserDTO userDto = JSOMapping.convertUser(jsObj);
+        System.out.println("UserDataSource: transformResponse: FINISH: userDto=" + userDto);
+        response.setAttribute("user", userDto);
+
+        // =========================================================================================
+        // the position id comes back as a position object in field: position
+        JavaScriptObject jsoPosition = JSOHelper.getAttributeAsJavaScriptObject(jsObj, "position");
+        String positionId = JSOHelper.getAttribute(jsoPosition, "id");
+        // we set the userPositionId with the id of the position
+        JSOHelper.setAttribute(jsObj, Constants.USER_POSITION_ID, positionId);
+        // remove the object position
+        JSOHelper.deleteAttribute(jsObj, "position");
+        // =========================================================================================
+
+        String jsoText2 = JSON.encode(jsObj);
+        System.out.println("UserDataSource: transformResponse: FINISH: jsoText=" + jsoText2);
+
+        System.out.println("UserDataSource: super.transformResponse: FINISH: jsonData=" + jsonData);
+        super.transformResponse(response, request, jsonData);
     }
 
 }

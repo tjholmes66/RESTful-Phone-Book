@@ -12,6 +12,7 @@ public class UserDTO implements Serializable
     private PositionDTO position;
     private String username;
     private String password;
+    private String otherPassword;
     private String userFirstName;
     private String userLastName;
     private String userEmail;
@@ -21,6 +22,16 @@ public class UserDTO implements Serializable
     private String userSecurityAnswer2;
     private Date userBirthDate;
     private ArrayList<ContactDTO> contacts;
+
+    public UserDTO()
+    {
+
+    }
+
+    public UserDTO(long userId)
+    {
+        this.userId = userId;
+    }
 
     public long getUserId()
     {
@@ -162,12 +173,23 @@ public class UserDTO implements Serializable
         this.userBirthDate = userBirthDate;
     }
 
+    public String getOtherPassword()
+    {
+        return otherPassword;
+    }
+
+    public void setOtherPassword(String otherPassword)
+    {
+        this.otherPassword = otherPassword;
+    }
+
     @Override
     public int hashCode()
     {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((contacts == null) ? 0 : contacts.hashCode());
+        result = prime * result + ((otherPassword == null) ? 0 : otherPassword.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
         result = prime * result + ((position == null) ? 0 : position.hashCode());
         result = prime * result + (userActive ? 1231 : 1237);
@@ -200,6 +222,13 @@ public class UserDTO implements Serializable
                 return false;
         }
         else if (!contacts.equals(other.contacts))
+            return false;
+        if (otherPassword == null)
+        {
+            if (other.otherPassword != null)
+                return false;
+        }
+        else if (!otherPassword.equals(other.otherPassword))
             return false;
         if (password == null)
         {
@@ -289,11 +318,11 @@ public class UserDTO implements Serializable
     public String toString()
     {
         return "UserDTO [userId=" + userId + ", userActive=" + userActive + ", position=" + position + ", username="
-            + username + ", password=" + password + ", userFirstName=" + userFirstName + ", userLastName="
-            + userLastName + ", userEmail=" + userEmail + ", userSecurityQuestion1=" + userSecurityQuestion1
-            + ", userSecurityAnswer1=" + userSecurityAnswer1 + ", userSecurityQuestion2=" + userSecurityQuestion2
-            + ", userSecurityAnswer2=" + userSecurityAnswer2 + ", userBirthDate=" + userBirthDate + ", contacts="
-            + contacts + "]";
+            + username + ", password=" + password + ", otherPassword=" + otherPassword + ", userFirstName="
+            + userFirstName + ", userLastName=" + userLastName + ", userEmail=" + userEmail
+            + ", userSecurityQuestion1=" + userSecurityQuestion1 + ", userSecurityAnswer1=" + userSecurityAnswer1
+            + ", userSecurityQuestion2=" + userSecurityQuestion2 + ", userSecurityAnswer2=" + userSecurityAnswer2
+            + ", userBirthDate=" + userBirthDate + ", contacts=" + contacts + "]";
     }
 
 }

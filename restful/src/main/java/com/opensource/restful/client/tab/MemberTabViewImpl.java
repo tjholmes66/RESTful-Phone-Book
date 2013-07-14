@@ -2,7 +2,6 @@ package com.opensource.restful.client.tab;
 
 import com.google.gwt.event.shared.EventBus;
 import com.opensource.restful.client.datasource.UserDataSource;
-import com.opensource.restful.client.widget.ContactWidget;
 import com.opensource.restful.shared.dto.UserDTO;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.Side;
@@ -44,12 +43,16 @@ public class MemberTabViewImpl implements MemberTabView
         // topTabSet.addTab(tTab1);
 
         ProfileTabPresenter memberTabPresenter =
-            new ProfileTabPresenterImpl(eventBus, new ProfileTabViewImpl("Profiles", eventBus, userDto));
+            new ProfileTabPresenterImpl(eventBus, new ProfileTabViewImpl("Profile", eventBus, userDto));
         topTabSet.addTab(memberTabPresenter.getView().getProfileTab());
 
-        Tab tTab2 = new Tab("Contacts");
-        tTab2.setPane(new ContactWidget(userDto));
-        topTabSet.addTab(tTab2);
+        ContactInfoTabPresenter contactTabPresenter =
+            new ContactInfoTabPresenterImpl(eventBus, new ContactInfoTabViewImpl("Contacts", eventBus, userDto));
+        topTabSet.addTab(contactTabPresenter.getView().getContactInfoTab());
+
+        // Tab tTab2 = new Tab("Contacts");
+        // tTab2.setPane(new ContactWidgetOLD(userDto));
+        // topTabSet.addTab(tTab2);
 
         mainLayout.addMember(topTabSet);
 

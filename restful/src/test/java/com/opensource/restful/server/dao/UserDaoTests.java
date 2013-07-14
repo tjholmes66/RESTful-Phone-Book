@@ -211,7 +211,7 @@ public class UserDaoTests extends TestCase
         // =================================================================================
     }
 
-    @Test
+    // @Test
     public void testUserRetrieveAll()
     {
         System.out.println("testUserRetrieveAll: START");
@@ -247,7 +247,7 @@ public class UserDaoTests extends TestCase
         // =================================================================================
     }
 
-    @Test
+    // @Test
     public void testUserRetrieveById()
     {
         System.out.println("testUserRetrieveById: START");
@@ -277,6 +277,60 @@ public class UserDaoTests extends TestCase
         // =================================================================================
     }
 
+    @Test
+    public void testUserRetrieveByEmail()
+    {
+        System.out.println("testUserRetrieveByEmail: START");
+        // =================================================================================
+        String email = "tom@tomholmes.net";
+        // =================================================================================
+        // ***************************************************************
+        System.out.println("testUserRetrieveByEmail: START: CREATE");
+        UserEntity exampleEntity = new UserEntity();
+        exampleEntity.setEmail(email);
+
+        System.out.println("testUserRetrieveByEmail: START: CREATE");
+        List<UserEntity> users = userDao.getUserEntityByEmail(email);
+        assertNotNull(users);
+        assertEquals(1, users.size());
+        UserEntity user = users.get(0);
+        assertNotNull(user.getUserId());
+
+        // ************************************************************
+        assertEquals(user.getEmail(), email);
+        // ************************************************************
+        System.out.println("testUserRetrieveByEmail: user=" + user.toString());
+        System.out.println("testUserRetrieveByEmail: FINISH: CREATE");
+        // =================================================================================
+    }
+
+    @Test
+    public void testUserRetrieveByUsername()
+    {
+        System.out.println("testUserRetrieveByUsername: START");
+        // =================================================================================
+        String username = "demo";
+        // =================================================================================
+        // ***************************************************************
+        System.out.println("testUserRetrieveByUsername: START: CREATE");
+        UserEntity exampleEntity = new UserEntity();
+        exampleEntity.setUsername(username);
+
+        System.out.println("testUserRetrieveByUsername: START: CREATE");
+        List<UserEntity> users = userDao.getUserEntityByUsername(username);
+        assertNotNull(users);
+        assertEquals(1, users.size());
+        UserEntity user = users.get(0);
+        assertNotNull(user.getUserId());
+
+        // ************************************************************
+        assertEquals(user.getUsername(), username);
+        // ************************************************************
+        System.out.println("testUserRetrieveByUsername: user=" + user.toString());
+        System.out.println("testUserRetrieveByUsername: FINISH: CREATE");
+        // =================================================================================
+    }
+
     // @Test
     public void testUserRetrieveByExample()
     {
@@ -303,7 +357,7 @@ public class UserDaoTests extends TestCase
         // =================================================================================
     }
 
-    @Test
+    // @Test
     public void testUserRetrieveByUsernamePassword()
     {
         System.out.println("testUserRetrieveByUsernamePassword: START");
@@ -451,7 +505,7 @@ public class UserDaoTests extends TestCase
         contact.getEmails().remove(contactEmail);
         // ***************************************************************
         System.out.println("testContactUpdate: START: CREATE");
-        contact = contactDao.saveContactEntity(contact);
+        contact = contactDao.updateContactEntity(contact);
         assertNotNull(contact);
         assertEquals(contact.getCity(), updateCity);
         assertEquals(contact.getFirstName(), updateFirstName);
@@ -463,7 +517,7 @@ public class UserDaoTests extends TestCase
         // =================================================================================
     }
 
-    @Test
+    // @Test
     public void testUserUpdate()
     {
         System.out.println("testUserUpdate: START");

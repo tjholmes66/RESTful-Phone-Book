@@ -723,7 +723,6 @@ public class ContactWidget extends HLayout
                     record.setAttribute(Constants.CONTACT_EDITED_DATE, today);
 
                     record.setAttribute(Constants.CONTACT_BIRTHDATE, birthdateField.getValueAsDate());
-                    record.setAttribute(Constants.CONTACT_ADMIN, false);
                     record.setAttribute(Constants.CONTACT_COMPANY_ID, 0);
 
                     if (contactId == 0)

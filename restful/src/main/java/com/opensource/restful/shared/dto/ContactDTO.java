@@ -29,6 +29,16 @@ public class ContactDTO implements Serializable
     private ArrayList<ContactPhoneDTO> phones;
     private ArrayList<ContactLinkDTO> links;
 
+    public ContactDTO()
+    {
+
+    }
+
+    public ContactDTO(long contactId)
+    {
+        this.contactId = contactId;
+    }
+
     public long getContactId()
     {
         return contactId;

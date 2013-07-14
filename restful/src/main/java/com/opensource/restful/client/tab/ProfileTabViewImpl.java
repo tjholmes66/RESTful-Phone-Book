@@ -154,7 +154,8 @@ public class ProfileTabViewImpl implements ProfileTabView
 
         positionField.setTitle(Constants.TITLE_USER_POSITION_ID);
         positionField.setDefaultValue(Long.toString(_userDto.getPosition().getId()));
-        positionField.setVisible(false);
+        positionField.setVisible(true);
+        positionField.setRequired(true);
 
         birthdateField.setTitle(Constants.TITLE_USER_BIRTHDATE);
         birthdateField.setIconVAlign(VerticalAlignment.CENTER);
@@ -163,8 +164,8 @@ public class ProfileTabViewImpl implements ProfileTabView
         birthdateField.setRequired(true);
 
         profileForm.setFields(idField, usernameField, activeField, firstnameField, lastnameField, emailField,
-            positionField, securityQuestion1Field, securityAnswer1Field, securityQuestion2Field, securityAnswer2Field,
-            birthdateField);
+            securityQuestion1Field, securityAnswer1Field, securityQuestion2Field, securityAnswer2Field, birthdateField,
+            positionField);
 
         return profileForm;
     }

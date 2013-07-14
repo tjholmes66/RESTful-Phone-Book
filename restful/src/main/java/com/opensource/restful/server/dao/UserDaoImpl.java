@@ -94,4 +94,24 @@ public class UserDaoImpl implements UserDao
         return users;
     }
 
+    @Override
+    public List<UserEntity> getUserEntityByEmail(String email)
+    {
+        List<UserEntity> users =
+            this.sessionFactory.getCurrentSession().createQuery("from UserEntity users where users.email=?")
+            .setParameter(0, email).list();
+
+        return users;
+    }
+
+    @Override
+    public List<UserEntity> getUserEntityByUsername(String username)
+    {
+        List<UserEntity> users =
+            this.sessionFactory.getCurrentSession().createQuery("from UserEntity users where users.username=?")
+            .setParameter(0, username).list();
+
+        return users;
+    }
+
 }

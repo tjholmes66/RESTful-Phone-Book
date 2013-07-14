@@ -2,6 +2,7 @@ package com.opensource.restful.client.datasource;
 
 import java.util.Map;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.URL;
 import com.smartgwt.client.data.DSRequest;
 import com.smartgwt.client.data.OperationBinding;
@@ -9,6 +10,7 @@ import com.smartgwt.client.data.Record;
 import com.smartgwt.client.data.RestDataSource;
 import com.smartgwt.client.types.DSOperationType;
 import com.smartgwt.client.types.DSProtocol;
+import com.smartgwt.client.util.JSON;
 
 public abstract class AbstractRestDataSource extends RestDataSource
 {
@@ -64,7 +66,15 @@ public abstract class AbstractRestDataSource extends RestDataSource
         // now post process the request for our own means
         postProcessTransform(request);
 
+        JavaScriptObject jsObj = (JavaScriptObject) request.getData();
+        String jsoText1 = JSON.encode(jsObj);
+        System.out.println("AbstractRestDataSource: transformRequest: START: jsoText1=" + jsoText1);
+
         super.transformRequest(request);
+
+        JavaScriptObject jsObj1 = (JavaScriptObject) request.getData();
+        String jsoText2 = JSON.encode(jsObj1);
+        System.out.println("AbstractRestDataSource: transformRequest: START: jsoText2=" + jsoText2);
 
         return request.getData();
     }

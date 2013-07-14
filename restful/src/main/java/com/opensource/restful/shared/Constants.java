@@ -16,6 +16,9 @@ public class Constants
     public static String COOKIES_VALID_PHONEBOOK_ID = "validPhoneBookId";
     public static String COOKIES_USER_TYPE = "userType";
 
+    public final static String USER_FULL_NAME = "userFullName";
+    public final static String TITLE_USER_FULL_NAME = "Full Name";
+
     // Button Constants
     public final static String BUTTON_NEW = "New";
     public final static String BUTTON_RESET = "Reset";
@@ -23,6 +26,24 @@ public class Constants
     public final static String BUTTON_UPDATE = "Update";
     public final static String BUTTON_DELETE = "Delete";
     public final static String BUTTON_REFRESH = "Refresh";
+    public final static String BUTTON_FORGOT_USERNAME = "Forgot Username";
+    public final static String BUTTON_FORGOT_PASSWORD = "Forgot Password";
+    public final static String BUTTON_SEARCH = "Search";
+    public final static String BUTTON_SUBMIT = "Submit";
+
+    // Login Constants
+    public final static String LOGIN_USERNAME = "username";
+    public final static String LOGIN_PASSWORD = "password";
+    public final static String LOGIN_FORGOT_USERNAME = "forgotUsername";
+    public final static String LOGIN_FORGOT_PASSWORD = "forgotPassword";
+
+    public final static String TITLE_LOGIN_USERNAME = "Username";
+    public final static String TITLE_LOGIN_PASSWORD = "Password";
+    public final static String TITLE_LOGIN_FORGOT_USERNAME = "Forgot Username";
+    public final static String TITLE_LOGIN_FORGOT_PASSWORD = "Forgot Password";
+
+    public final static String BUTTON_SIGNIN = "Sign In";
+    public final static String BUTTON_SIGNUP = "Sign Me Up!";
 
     // Constants for Password Change Form
     public final static String USER_OLD_PASSWORD = "userOldPassword";
@@ -83,7 +104,6 @@ public class Constants
     public static final String CONTACT_EDITED_BY = "editedBy";
     public static final String CONTACT_EDITED_DATE = "editedDate";
     public static final String CONTACT_BIRTHDATE = "birthDate";
-    public static final String CONTACT_ADMIN = "admin";
 
     public static final String TITLE_CONTACT_USER_ID = "User Id";
     public static final String TITLE_CONTACT_ID = "Contact Id";

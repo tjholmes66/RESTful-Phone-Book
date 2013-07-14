@@ -1,7 +1,6 @@
 package com.opensource.restful.shared.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,12 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.opensource.restful.domain.ContactEntity;
 import com.opensource.restful.domain.UserEntity;
-import com.opensource.restful.shared.dto.ContactDTO;
-import com.opensource.restful.shared.dto.PositionDTO;
+import com.opensource.restful.shared.Mapping;
 import com.opensource.restful.shared.dto.UserDTO;
 import com.opensource.restful.shared.service.ILoginService;
+import com.opensource.restful.shared.util.ISendEmailService;
 
 @Controller
 @RequestMapping("/login")
@@ -24,82 +22,68 @@ public class LoginController
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-dd-MM");
 
     @Autowired
-    private ILoginService service;
+    private ILoginService loginService;
 
-    public ILoginService getService()
+    public ILoginService getLoginService()
     {
-        return service;
+        return loginService;
     }
 
-    public void setService(ILoginService service)
+    public void setLoginService(ILoginService loginService)
     {
-        this.service = service;
+        this.loginService = loginService;
+    }
+
+    @Autowired
+    private ISendEmailService emailService;
+
+    public ISendEmailService getEmailService()
+    {
+        return emailService;
+    }
+
+    public void setEmailService(ISendEmailService emailService)
+    {
+        this.emailService = emailService;
     }
 
     @RequestMapping(value = "/user/{username}/pwd/{password}", method = RequestMethod.GET)
     public @ResponseBody
     UserDTO login(@PathVariable("username") String username, @PathVariable("password") String password)
     {
-        UserEntity userEntity = service.login(username, password);
-        UserDTO userDto = new UserDTO();
-
-        if (userEntity != null)
+        System.out.println("LoginController: login: START: username=" + username + " password=" + password);
+        UserEntity userEntity = null;
+        if (username != null && (password != null && !password.equals("null")))
         {
-            // userDto = new UserDTO();
-
-            userDto.setUserActive(userEntity.isActive());
-            userDto.setUserBirthDate(userEntity.getBirthdate());
-            userDto.setUserEmail(userEntity.getEmail());
-            userDto.setUserFirstName(userEntity.getFirstname());
-            userDto.setUserId(userEntity.getUserId());
-            userDto.setUserLastName(userEntity.getLastname());
-            userDto.setPassword(userEntity.getPassword());
-
-            if (userEntity.getContacts() != null)
-            {
-                ArrayList<ContactDTO> contactList = new ArrayList<ContactDTO>();
-                for (ContactEntity contactEntity : userEntity.getContacts())
-                {
-                    ContactDTO contactDto = new ContactDTO();
-                    contactDto.setAddress1(contactEntity.getAddress1());
-                    contactDto.setAddress2(contactEntity.getAddress2());
-                    contactDto.setBirthDate(contactEntity.getBirthDate());
-                    contactDto.setCity(contactEntity.getCity());
-                    contactDto.setCompanyId(contactEntity.getCompanyId());
-                    contactDto.setContactId(contactEntity.getContactId());
-                    contactDto.setEditedBy(contactEntity.getEditedBy());
-                    contactDto.setEditedDate(contactEntity.getEditedDate());
-                    // contactDto.setEmails(emails);
-                    contactDto.setEnteredBy(contactEntity.getEnteredBy());
-                    contactDto.setEnteredDate(contactEntity.getEnteredDate());
-                    contactDto.setFirstName(contactEntity.getFirstName());
-                    contactDto.setLastName(contactEntity.getLastName());
-                    // contactDto.setLinks(links);
-                    contactDto.setMiddleName(contactEntity.getMiddleName());
-                    // contactDto.setPhones(phones);
-                    contactDto.setPrefix(contactEntity.getPrefix());
-                    contactDto.setState(contactEntity.getState());
-                    contactDto.setSuffix(contactEntity.getSuffix());
-                    contactDto.setUserId(contactEntity.getUser().getUserId());
-                    contactDto.setZip(contactEntity.getZip());
-                    contactList.add(contactDto);
-                }
-                userDto.setContacts(contactList);
-            }
-
-            PositionDTO positionDto = new PositionDTO();
-            positionDto.setActive(userEntity.getPosition().isActive());
-            positionDto.setCode(userEntity.getPosition().getCode());
-            positionDto.setDescription(userEntity.getPosition().getDescription());
-            positionDto.setId(userEntity.getPosition().getId());
-            userDto.setPosition(positionDto);
-
-            userDto.setUserSecurityAnswer1(userEntity.getSecurityAnswer1());
-            userDto.setUserSecurityAnswer2(userEntity.getSecurityAnswer2());
-            userDto.setUserSecurityQuestion1(userEntity.getSecurityQuestion1());
-            userDto.setUserSecurityQuestion2(userEntity.getSecurityQuestion2());
-            userDto.setUsername(userEntity.getUsername());
+            userEntity = loginService.login(username, password);
         }
+        else
+        {
+            userEntity = loginService.loginByUsername(username);
+        }
+        UserDTO userDto = Mapping.mappingUser(userEntity);
+        System.out.println("LoginController: login: FINISH: userDto=" + userDto);
         return userDto;
     }
+
+    @RequestMapping(value = "/email/{email:.*}", method = RequestMethod.GET)
+    public @ResponseBody
+    UserDTO login(@PathVariable("email") String email)
+    {
+        System.out.println("LoginController: login: START: email=" + email);
+        UserEntity userEntity = loginService.loginByEmail(email);
+        UserDTO userDto = Mapping.mappingUser(userEntity);
+        if (userDto != null)
+        {
+            String msgBody = "Found your username: " + userDto.getUsername();
+
+            // sendMail(String from, String to, String subject, String msg)
+
+            emailService.sendMail("phonebook_app@tomholmes.net", userDto.getUserEmail(),
+                "Phonebook App - Found Username", msgBody);
+        }
+        System.out.println("LoginController: login: FINISH: userDto=" + userDto);
+        return userDto;
+    }
+
 }

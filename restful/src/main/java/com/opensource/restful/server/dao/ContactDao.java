@@ -13,15 +13,13 @@ public interface ContactDao
 
     public void deleteContactEntity(long contactId);
 
-    public ContactEntity saveContactEntity(ContactEntity contact);
+    public ContactEntity updateContactEntity(ContactEntity contactEntity);
 
     public List<ContactEntity> getAllContactEntitys();
 
     public List<ContactEntity> getContactEntity(ContactEntity exampleEntity);
 
     public List<ContactEntity> getContactEntityByUser(UserEntity exampleEntity);
-
-    public ContactEntity updateContactEntity(ContactEntity contact);
 
     public ContactEntity getContactEntity(long id);
 }

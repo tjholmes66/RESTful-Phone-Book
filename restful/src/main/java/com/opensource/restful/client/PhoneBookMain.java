@@ -136,7 +136,8 @@ public class PhoneBookMain extends Canvas
         topTabSet.setHeight100();
 
         ContactInfoTabPresenterImpl contactInfoTabPresenter =
-            new ContactInfoTabPresenterImpl(eventBus, new ContactInfoTabViewImpl(resources.tabTitle_ContactInfoTab()));
+            new ContactInfoTabPresenterImpl(eventBus, new ContactInfoTabViewImpl(resources.tabTitle_ContactInfoTab(),
+                eventBus, userDto));
         topTabSet.addTab(contactInfoTabPresenter.getView().getContactInfoTab());
 
         return topTabSet;

@@ -1,5 +1,6 @@
 package com.opensource.restful.shared.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.opensource.restful.domain.ContactEntity;
 import com.opensource.restful.domain.UserEntity;
-import com.opensource.restful.shared.dto.ContactDTO;
-import com.opensource.restful.shared.dto.PositionDTO;
+import com.opensource.restful.shared.Mapping;
 import com.opensource.restful.shared.dto.UserDTO;
 import com.opensource.restful.shared.service.IUserService;
 
@@ -21,6 +20,8 @@ import com.opensource.restful.shared.service.IUserService;
 @RequestMapping("/users")
 public class UserController
 {
+    private final static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
     @Autowired
     private IUserService service;
 
@@ -57,19 +58,20 @@ public class UserController
     UserDTO getUserById(@PathVariable("userId") long userId)
     {
         UserEntity userEntity = service.getUserById(userId);
-        return mappingUser(userEntity);
+        UserDTO userDto = Mapping.mappingUser(userEntity);
+        System.out.println("UserController: retrieveUser: userDto=" + userDto);
+        return userDto;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json",
         headers = "content-type=application/json")
     public @ResponseBody
-    UserDTO createUser(@RequestBody String user)
+    UserDTO createUser(@RequestBody UserDTO user)
     {
         System.out.println("UserController: createUser: user=" + user);
-
-        UserDTO userDto = new UserDTO();
-        // UserEntity userEntity = service.add(userDto);
-        // return mappingUser(userEntity);
+        UserEntity userEntity = service.add(user);
+        UserDTO userDto = Mapping.mappingUser(userEntity);
+        System.out.println("UserController: createUser: userDto=" + userDto);
         return userDto;
     }
 
@@ -78,12 +80,10 @@ public class UserController
     public @ResponseBody
     UserDTO updateUser(@RequestBody UserDTO user)
     {
-        System.out.println("UserController: updateUser: user=" + user);
-
+        System.out.println("UserController: START: updateUser: user=" + user);
         UserEntity userEntity = service.update(user);
-
-        UserDTO userDto = mappingUser(userEntity);
-
+        UserDTO userDto = Mapping.mappingUser(userEntity);
+        System.out.println("UserController: FINISH: updateUser: userDto=" + userDto);
         return userDto;
     }
 
@@ -92,68 +92,6 @@ public class UserController
     void deleteUser(@PathVariable("userId") long userId)
     {
         service.remove(userId);
-    }
-
-    private UserDTO mappingUser(UserEntity userEntity)
-    {
-        UserDTO userDto = new UserDTO();
-
-        if (userEntity != null)
-        {
-            userDto.setUserActive(userEntity.isActive());
-            userDto.setUserBirthDate(userEntity.getBirthdate());
-            userDto.setUserEmail(userEntity.getEmail());
-            userDto.setUserFirstName(userEntity.getFirstname());
-            userDto.setUserId(userEntity.getUserId());
-            userDto.setUserLastName(userEntity.getLastname());
-            userDto.setPassword(userEntity.getPassword());
-
-            if (userEntity.getContacts() != null)
-            {
-                ArrayList<ContactDTO> contactList = new ArrayList<ContactDTO>();
-                for (ContactEntity contactEntity : userEntity.getContacts())
-                {
-                    ContactDTO contactDto = new ContactDTO();
-                    contactDto.setAddress1(contactEntity.getAddress1());
-                    contactDto.setAddress2(contactEntity.getAddress2());
-                    contactDto.setBirthDate(contactEntity.getBirthDate());
-                    contactDto.setCity(contactEntity.getCity());
-                    contactDto.setCompanyId(contactEntity.getCompanyId());
-                    contactDto.setContactId(contactEntity.getContactId());
-                    contactDto.setEditedBy(contactEntity.getEditedBy());
-                    contactDto.setEditedDate(contactEntity.getEditedDate());
-                    // contactDto.setEmails(emails);
-                    contactDto.setEnteredBy(contactEntity.getEnteredBy());
-                    contactDto.setEnteredDate(contactEntity.getEnteredDate());
-                    contactDto.setFirstName(contactEntity.getFirstName());
-                    contactDto.setLastName(contactEntity.getLastName());
-                    // contactDto.setLinks(links);
-                    contactDto.setMiddleName(contactEntity.getMiddleName());
-                    // contactDto.setPhones(phones);
-                    contactDto.setPrefix(contactEntity.getPrefix());
-                    contactDto.setState(contactEntity.getState());
-                    contactDto.setSuffix(contactEntity.getSuffix());
-                    contactDto.setUserId(contactEntity.getUser().getUserId());
-                    contactDto.setZip(contactEntity.getZip());
-                    contactList.add(contactDto);
-                }
-                userDto.setContacts(contactList);
-            }
-
-            PositionDTO positionDto = new PositionDTO();
-            positionDto.setActive(userEntity.getPosition().isActive());
-            positionDto.setCode(userEntity.getPosition().getCode());
-            positionDto.setDescription(userEntity.getPosition().getDescription());
-            positionDto.setId(userEntity.getPosition().getId());
-            userDto.setPosition(positionDto);
-
-            userDto.setUserSecurityAnswer1(userEntity.getSecurityAnswer1());
-            userDto.setUserSecurityAnswer2(userEntity.getSecurityAnswer2());
-            userDto.setUserSecurityQuestion1(userEntity.getSecurityQuestion1());
-            userDto.setUserSecurityQuestion2(userEntity.getSecurityQuestion2());
-            userDto.setUsername(userEntity.getUsername());
-        }
-        return userDto;
     }
 
 }

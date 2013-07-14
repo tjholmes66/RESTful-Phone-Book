@@ -34,4 +34,28 @@ public class LoginServiceImpl implements ILoginService
         return userEntity;
     }
 
+    @Override
+    public UserEntity loginByEmail(String email)
+    {
+        List<UserEntity> userEntitys = userDao.getUserEntityByEmail(email);
+        UserEntity userEntity = null;
+        if (userEntitys != null && userEntitys.size() > 0)
+        {
+            userEntity = userEntitys.get(0);
+        }
+        return userEntity;
+    }
+
+    @Override
+    public UserEntity loginByUsername(String username)
+    {
+        List<UserEntity> userEntitys = userDao.getUserEntityByUsername(username);
+        UserEntity userEntity = null;
+        if (userEntitys != null && userEntitys.size() > 0)
+        {
+            userEntity = userEntitys.get(0);
+        }
+        return userEntity;
+    }
+
 }

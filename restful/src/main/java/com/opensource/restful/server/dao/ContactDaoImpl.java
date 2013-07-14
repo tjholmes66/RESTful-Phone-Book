@@ -29,35 +29,35 @@ public class ContactDaoImpl implements ContactDao
     }
 
     @Override
-    public ContactEntity createContactEntity(ContactEntity contact)
+    public ContactEntity createContactEntity(ContactEntity contactEntity)
     {
-        this.sessionFactory.getCurrentSession().persist(contact);
-        return contact;
+        this.sessionFactory.getCurrentSession().save(contactEntity);
+        this.sessionFactory.getCurrentSession().flush();
+        this.sessionFactory.getCurrentSession().refresh(contactEntity);
+        return contactEntity;
     }
 
     @Override
-    public ContactEntity saveContactEntity(ContactEntity contact)
+    public ContactEntity updateContactEntity(ContactEntity contactEntity)
     {
-        this.sessionFactory.getCurrentSession().saveOrUpdate(contact);
-        return contact;
-    }
-
-    @Override
-    public ContactEntity updateContactEntity(ContactEntity contact)
-    {
-        this.sessionFactory.getCurrentSession().merge(contact);
-        return contact;
+        this.sessionFactory.getCurrentSession().update(contactEntity);
+        this.sessionFactory.getCurrentSession().flush();
+        this.sessionFactory.getCurrentSession().refresh(contactEntity);
+        return contactEntity;
     }
 
     @Override
     public void deleteContactEntity(long contactId)
     {
+        ContactEntity contactEntity = new ContactEntity();
+        contactEntity.setContactId(contactId);
+        this.sessionFactory.getCurrentSession().delete(contactEntity);
     }
 
     @Override
-    public void deleteContactEntity(ContactEntity contact)
+    public void deleteContactEntity(ContactEntity contactEntity)
     {
-        this.sessionFactory.getCurrentSession().delete(contact);
+        this.sessionFactory.getCurrentSession().delete(contactEntity);
     }
 
     @Override
