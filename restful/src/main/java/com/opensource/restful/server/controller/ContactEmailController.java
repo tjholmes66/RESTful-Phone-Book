@@ -1,4 +1,4 @@
-package com.opensource.restful.shared.controller;
+package com.opensource.restful.server.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,4 +1,4 @@
-package com.opensource.restful.shared.controller;
+package com.opensource.restful.server.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;

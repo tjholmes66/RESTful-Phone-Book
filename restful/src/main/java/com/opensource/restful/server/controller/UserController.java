@@ -1,4 +1,4 @@
-package com.opensource.restful.shared.controller;
+package com.opensource.restful.server.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

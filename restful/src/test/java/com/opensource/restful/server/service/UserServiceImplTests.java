@@ -1,4 +1,4 @@
-package com.opensource.restful.shared.service;
+package com.opensource.restful.server.service;
 
 import junit.framework.TestCase;
 
