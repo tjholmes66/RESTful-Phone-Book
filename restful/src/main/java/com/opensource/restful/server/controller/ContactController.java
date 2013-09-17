@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.opensource.restful.domain.ContactEntity;
+import com.opensource.restful.server.service.IContactService;
 import com.opensource.restful.shared.Mapping;
 import com.opensource.restful.shared.dto.ContactDTO;
-import com.opensource.restful.shared.service.IContactService;
 
 @Controller
 @RequestMapping("/contacts")

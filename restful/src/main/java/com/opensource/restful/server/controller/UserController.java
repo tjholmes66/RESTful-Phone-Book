@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.opensource.restful.domain.UserEntity;
+import com.opensource.restful.server.service.IUserService;
 import com.opensource.restful.shared.Mapping;
 import com.opensource.restful.shared.dto.UserDTO;
-import com.opensource.restful.shared.service.IUserService;
 
 @Controller
 @RequestMapping("/users")
