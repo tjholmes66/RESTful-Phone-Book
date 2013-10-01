@@ -22,16 +22,6 @@ public class ContactController
     @Autowired
     private IContactService service;
 
-    public IContactService getService()
-    {
-        return service;
-    }
-
-    public void setService(IContactService service)
-    {
-        this.service = service;
-    }
-
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public @ResponseBody
     ArrayList<ContactDTO> getAllContacts()

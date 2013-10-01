@@ -8,24 +8,16 @@ import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.opensource.restful.domain.UserEntity;
 
-@Transactional
 @Repository("userDao")
 public class UserDaoImpl implements UserDao
 {
+    private static final Log logger = LogFactory.getLog(UserDaoImpl.class);
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    private static final Log logger = LogFactory.getLog(UserDaoImpl.class);
-
-    public void setSessionFactory(SessionFactory sessionFactory)
-    {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public UserEntity createUserEntity(UserEntity userEntity)
@@ -70,14 +62,12 @@ public class UserDaoImpl implements UserDao
     @Override
     public UserEntity getUserEntity(long userId)
     {
-        // return (UserEntity)this.getHibernateTemplate().get(UserEntity.class, id);
         return (UserEntity) this.sessionFactory.getCurrentSession().get(UserEntity.class, userId);
     }
 
     @Override
     public List<UserEntity> getUsersEntity(UserEntity exampleEntity)
     {
-        // List<UserEntity> users = this.getHibernateTemplate().findByExample(exampleEntity);
         Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(UserEntity.class);
         List<UserEntity> users = criteria.list();
         return users;

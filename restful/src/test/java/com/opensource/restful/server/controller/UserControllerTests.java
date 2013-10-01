@@ -1,6 +1,7 @@
 package com.opensource.restful.server.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -31,7 +33,8 @@ import com.opensource.restful.shared.dto.UserDTO;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(locations =
-{ "classpath*:applicationContext.xml" })
+{ "classpath:applicationContext.xml" })
+@Transactional
 public class UserControllerTests
 {
     public final static String BASE_URL = "http://127.0.0.1:8888/";
@@ -136,7 +139,7 @@ public class UserControllerTests
     // @Test
     public void testMockGetUserByUserId() throws Exception
     {
-        mockMvc.perform(get("/users/userId/1").accept(MediaType.APPLICATION_JSON));
+        mockMvc.perform(get("/users/userId/1").accept(MediaType.APPLICATION_JSON)).andDo(print());
         // .andExpect(status().isOk());
     }
 
@@ -144,7 +147,7 @@ public class UserControllerTests
      * Requires App to be running in order to test.
      * Anything with RestTemplate does need the app to be running.
      */
-    // @Test
+    @Test
     public void testGetUserByUserId() throws Exception
     {
         String url = BASE_URL + "/rest/users/userId/1";
@@ -309,7 +312,7 @@ public class UserControllerTests
         System.out.println("=======================================================================");
     }
 
-    @Test
+    // @Test
     public void testUserJSONtoObjectNew() throws IOException, ParseException
     {
         StringBuffer sb = new StringBuffer();

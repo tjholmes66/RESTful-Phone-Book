@@ -3,28 +3,23 @@ package com.opensource.restful.server.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.opensource.restful.domain.PositionEntity;
 import com.opensource.restful.domain.UserEntity;
 import com.opensource.restful.server.dao.UserDao;
 import com.opensource.restful.shared.dto.UserDTO;
 
+@Transactional
+@Service("userService")
 public class UserServiceImpl implements IUserService
 {
     @Autowired
     private UserDao userDao;
 
-    public UserDao getUserDao()
-    {
-        return userDao;
-    }
-
-    public void setUserDao(UserDao userDao)
-    {
-        this.userDao = userDao;
-    }
-
     @Override
+    @Transactional
     public List<UserEntity> getAllUsers()
     {
         List<UserEntity> userList = userDao.getAllUserEntitys();
@@ -32,6 +27,7 @@ public class UserServiceImpl implements IUserService
     }
 
     @Override
+    @Transactional
     public UserEntity getUserById(long userId)
     {
         UserEntity userEntity = userDao.getUserEntity(userId);
@@ -39,6 +35,7 @@ public class UserServiceImpl implements IUserService
     }
 
     @Override
+    @Transactional
     public UserEntity add(UserDTO userDto)
     {
         UserEntity newUser = new UserEntity();
@@ -65,18 +62,21 @@ public class UserServiceImpl implements IUserService
     }
 
     @Override
+    @Transactional
     public void remove(UserDTO userDto)
     {
         userDao.deleteUserEntity(userDto.getUserId());
     }
 
     @Override
+    @Transactional
     public void remove(long userId)
     {
         userDao.deleteUserEntity(userId);
     }
 
     @Override
+    @Transactional
     public UserEntity update(UserDTO userDto)
     {
         UserEntity newUser = userDao.getUserEntity(userDto.getUserId());

@@ -81,52 +81,14 @@
 	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 	
-	<context:component-scan base-package="com.opensource.restful" />
 	<context:annotation-config />
+	<context:component-scan base-package="com.opensource.restful" />
 
-	<bean id="userDao" class="com.opensource.restful.server.dao.UserDaoImpl">
-	    <property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-	<bean id="emailTypeDao" class="com.opensource.restful.server.dao.EmailTypeDaoImpl">
-	    <property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-	<bean id="phoneTypeDao" class="com.opensource.restful.server.dao.PhoneTypeDaoImpl">
-	    <property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-	<bean id="linkTypeDao" class="com.opensource.restful.server.dao.LinkTypeDaoImpl">
-	    <property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-	<bean id="contactDao" class="com.opensource.restful.server.dao.ContactDaoImpl">
-	    <property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-	<bean id="contactEmailDao" class="com.opensource.restful.server.dao.ContactEmailDaoImpl">
-	    <property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-	<bean id="contactPhoneDao" class="com.opensource.restful.server.dao.ContactPhoneDaoImpl">
-	    <property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-	<bean id="contactLinkDao" class="com.opensource.restful.server.dao.ContactLinkDaoImpl">
-	    <property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-	
-	 
-	<bean id="contactService" class="com.opensource.restful.shared.service.ContactServiceImpl">
-		<property name="contactDao" ref="contactDao"/>
-	</bean>
-	<bean id="loginService" class="com.opensource.restful.shared.service.LoginServiceImpl">
-		<property name="userDao" ref="userDao"/>
-	</bean>
-	<bean id="UserService" class="com.opensource.restful.shared.service.UserServiceImpl">
-		<property name="userDao" ref="userDao"/>
-	</bean>
-	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-	<bean id="contactEmailService" class="com.opensource.restful.shared.service.ContactEmailServiceImpl">
-		<property name="contactEmailDao" ref="contactEmailDao"/>
-	</bean>
-
+	<bean id = "transactionManager" class = "org.springframework.orm.hibernate4.HibernateTransactionManager">
+         <property name = "sessionFactory" ref = "sessionFactory" />
+ 	</bean>
+ 	
 	<!-- enable the configuration of transactional behavior based on annotations -->
-	<tx:annotation-driven/>
+	<tx:annotation-driven transaction-manager="transactionManager"/>
 	
 </beans>

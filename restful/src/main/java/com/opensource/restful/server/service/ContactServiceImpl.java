@@ -3,26 +3,20 @@ package com.opensource.restful.server.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.opensource.restful.domain.ContactEntity;
 import com.opensource.restful.domain.UserEntity;
 import com.opensource.restful.server.dao.ContactDao;
 import com.opensource.restful.shared.dto.ContactDTO;
 
+@Transactional
+@Service("contactService")
 public class ContactServiceImpl implements IContactService
 {
     @Autowired
     private ContactDao contactDao;
-
-    public ContactDao getContactDao()
-    {
-        return contactDao;
-    }
-
-    public void setContactDao(ContactDao contactDao)
-    {
-        this.contactDao = contactDao;
-    }
 
     @Override
     public List<ContactEntity> getAllContacts()

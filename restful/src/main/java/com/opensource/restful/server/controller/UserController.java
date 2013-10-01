@@ -25,16 +25,6 @@ public class UserController
     @Autowired
     private IUserService service;
 
-    public IUserService getService()
-    {
-        return service;
-    }
-
-    public void setService(IUserService service)
-    {
-        this.service = service;
-    }
-
     @RequestMapping(value = "/", method = RequestMethod.GET, headers = "Accept=application/json")
     public @ResponseBody
     ArrayList<UserDTO> getAllUsers()
@@ -55,12 +45,11 @@ public class UserController
 
     @RequestMapping(value = "/userId/{userId}", method = RequestMethod.GET, headers = "Accept=application/json")
     public @ResponseBody
-    UserDTO getUserById(@PathVariable("userId") long userId)
+    UserEntity getUserById(@PathVariable("userId") long userId)
     {
         UserEntity userEntity = service.getUserById(userId);
-        UserDTO userDto = Mapping.mappingUser(userEntity);
-        System.out.println("UserController: retrieveUser: userDto=" + userDto);
-        return userDto;
+        System.out.println("UserController: retrieveUser: userEntity=" + userEntity);
+        return userEntity;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json",

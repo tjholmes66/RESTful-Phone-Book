@@ -24,32 +24,12 @@ public class LoginController
     @Autowired
     private ILoginService loginService;
 
-    public ILoginService getLoginService()
-    {
-        return loginService;
-    }
-
-    public void setLoginService(ILoginService loginService)
-    {
-        this.loginService = loginService;
-    }
-
     @Autowired
     private ISendEmailService emailService;
 
-    public ISendEmailService getEmailService()
-    {
-        return emailService;
-    }
-
-    public void setEmailService(ISendEmailService emailService)
-    {
-        this.emailService = emailService;
-    }
-
     @RequestMapping(value = "/user/{username}/pwd/{password}", method = RequestMethod.GET)
     public @ResponseBody
-    UserDTO login(@PathVariable("username") String username, @PathVariable("password") String password)
+    UserEntity login(@PathVariable("username") String username, @PathVariable("password") String password)
     {
         System.out.println("LoginController: login: START: username=" + username + " password=" + password);
         UserEntity userEntity = null;
@@ -61,9 +41,8 @@ public class LoginController
         {
             userEntity = loginService.loginByUsername(username);
         }
-        UserDTO userDto = Mapping.mappingUser(userEntity);
-        System.out.println("LoginController: login: FINISH: userDto=" + userDto);
-        return userDto;
+        System.out.println("LoginController: login: FINISH: userEntity=" + userEntity);
+        return userEntity;
     }
 
     @RequestMapping(value = "/email/{email:.*}", method = RequestMethod.GET)

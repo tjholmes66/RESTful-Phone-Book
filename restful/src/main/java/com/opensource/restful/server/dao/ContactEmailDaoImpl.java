@@ -9,12 +9,10 @@ import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.opensource.restful.domain.ContactEmailEntity;
 import com.opensource.restful.domain.ContactEntity;
 
-@Transactional
 @Repository("contactEmailDao")
 public class ContactEmailDaoImpl implements ContactEmailDao
 {
