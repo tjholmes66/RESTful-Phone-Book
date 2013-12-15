@@ -19,6 +19,8 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cascade;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 // CREATE TABLE `users` (
 // `user_id` int(11) NOT NULL AUTO_INCREMENT,
 // `active` tinyint(1) NOT NULL DEFAULT '1',
@@ -104,6 +106,7 @@ public class UserEntity implements Serializable
     @Temporal(TemporalType.TIMESTAMP)
     private Date birthdate;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER)
     @Cascade(
     { org.hibernate.annotations.CascadeType.ALL })
@@ -380,7 +383,7 @@ public class UserEntity implements Serializable
             + username + ", password=" + password + ", firstname=" + firstname + ", lastname=" + lastname + ", email="
             + email + ", securityQuestion1=" + securityQuestion1 + ", securityAnswer1=" + securityAnswer1
             + ", securityQuestion2=" + securityQuestion2 + ", securityAnswer2=" + securityAnswer2 + ", birthdate="
-            + birthdate + ", contacts=" + contacts + "]";
+            + birthdate + "]";
     }
 
 }

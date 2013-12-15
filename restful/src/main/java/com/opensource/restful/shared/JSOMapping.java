@@ -1,6 +1,5 @@
 package com.opensource.restful.shared;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -44,6 +43,7 @@ public class JSOMapping
 
             userDto.setPosition(convertPosition(jsObj));
 
+            /*
             ArrayList<ContactDTO> contactList = new ArrayList<ContactDTO>();
             JavaScriptObject[] jsObjContacts = JSOHelper.getAttributeAsJavaScriptObjectArray(jsObj, "contacts");
             for (JavaScriptObject jsObjContact : jsObjContacts)
@@ -52,6 +52,7 @@ public class JSOMapping
                 contactList.add(contactDto);
             }
             userDto.setContacts(contactList);
+            */
 
             userDto.setUserSecurityAnswer1(JSOHelper.getAttribute(jsObj, Constants.USER_SECURITY_ANSWER_1));
             userDto.setUserSecurityAnswer2(JSOHelper.getAttribute(jsObj, Constants.USER_SECURITY_ANSWER_2));

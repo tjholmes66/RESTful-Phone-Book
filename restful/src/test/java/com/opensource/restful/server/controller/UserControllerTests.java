@@ -14,8 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
@@ -44,6 +42,9 @@ public class UserControllerTests
     private final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 
     private final static Log logger = LogFactory.getLog(UserControllerTests.class);
+
+    // @Autowired
+    // private UserController userController;
 
     private final static int id = 0;
     private final static String email = "tom@tomholmes.new";
@@ -136,7 +137,7 @@ public class UserControllerTests
         this.mockMvc = webAppContextSetup(ctx).build();
     }
 
-    // @Test
+    @Test
     public void testMockGetUserByUserId() throws Exception
     {
         mockMvc.perform(get("/users/userId/1").accept(MediaType.APPLICATION_JSON)).andDo(print());
@@ -147,7 +148,7 @@ public class UserControllerTests
      * Requires App to be running in order to test.
      * Anything with RestTemplate does need the app to be running.
      */
-    @Test
+    // @Test
     public void testGetUserByUserId() throws Exception
     {
         String url = BASE_URL + "/rest/users/userId/1";
@@ -208,6 +209,7 @@ public class UserControllerTests
         restTemplate.delete(url);
     }
 
+    /*
     @Configuration
     public static class TestConfiguration
     {
@@ -217,6 +219,7 @@ public class UserControllerTests
             return new UserController();
         }
     }
+    */
 
     // @Test
     public void testUpdateUserJSON() throws Exception

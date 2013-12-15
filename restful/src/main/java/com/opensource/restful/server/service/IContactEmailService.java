@@ -7,7 +7,6 @@ import com.opensource.restful.shared.dto.ContactDTO;
 
 public interface IContactEmailService
 {
-
     List<ContactEmailEntity> getAllEmailsByContactId(long contactId);
 
     ContactEmailEntity getEmailContactById(long emailId);

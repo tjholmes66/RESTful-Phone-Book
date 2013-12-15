@@ -43,12 +43,14 @@ public class UserController
         return userDTOList;
     }
 
-    @RequestMapping(value = "/userId/{userId}", method = RequestMethod.GET, headers = "Accept=application/json")
+    @RequestMapping(value = "/userId/{userId}", method = RequestMethod.GET, headers = "Accept=application/json",
+        produces = "application/json")
     public @ResponseBody
     UserEntity getUserById(@PathVariable("userId") long userId)
     {
+        System.out.println("UserController: getUserById: userId=" + userId);
         UserEntity userEntity = service.getUserById(userId);
-        System.out.println("UserController: retrieveUser: userEntity=" + userEntity);
+        System.out.println("UserController: getUserById: userEntity=" + userEntity);
         return userEntity;
     }
 

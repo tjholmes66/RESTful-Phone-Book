@@ -322,7 +322,7 @@ public class UserDTO implements Serializable
             + userFirstName + ", userLastName=" + userLastName + ", userEmail=" + userEmail
             + ", userSecurityQuestion1=" + userSecurityQuestion1 + ", userSecurityAnswer1=" + userSecurityAnswer1
             + ", userSecurityQuestion2=" + userSecurityQuestion2 + ", userSecurityAnswer2=" + userSecurityAnswer2
-            + ", userBirthDate=" + userBirthDate + ", contacts=" + contacts + "]";
+            + ", userBirthDate=" + userBirthDate + "]";
     }
 
 }

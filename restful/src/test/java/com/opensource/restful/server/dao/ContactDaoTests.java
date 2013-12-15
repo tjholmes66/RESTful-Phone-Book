@@ -234,7 +234,7 @@ public class ContactDaoTests extends TestCase
         // =================================================================================
     }
 
-    @Test
+    // @Test
     public void testContactRetrieveById()
     {
         System.out.println("testContactRetrieveById: START");
@@ -277,7 +277,7 @@ public class ContactDaoTests extends TestCase
         // =================================================================================
     }
 
-    @Test
+    // @Test
     public void testContactDelete()
     {
         System.out.println("testContactDelete: START");

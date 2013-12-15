@@ -176,7 +176,7 @@ public class UserDaoTests extends TestCase
         return contacts;
     }
 
-    // @Test
+    @Test
     public void testUserCreate() throws Exception
     {
         System.out.println("testUserCreate: START");
